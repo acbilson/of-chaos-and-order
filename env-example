@@ -1,0 +1,72 @@
+#-----------------
+# Global
+#-----------------
+
+# exports vars - docker needs no export, but bash scripts do
+set -a
+
+# remote hosts
+# I use an ssh config file to specify the user/ip combination
+# for ssh interaction. These are hosts specified in ~/.ssh/config
+PROD_HOST=web
+UAT_HOST=web
+
+
+#----------------------
+# App-Specific
+#----------------------
+
+# Session keys
+FLASK_SECRET_KEY="nothin-to-see-here"
+
+
+#----------------------
+# Build-Specific
+#----------------------
+
+# name, for attribution and image creation
+# (aka **acbilson**/chaos-theme-service:alpine)
+USER_NAME=acbilson
+
+# Name of the Docker image
+# (aka acbilson/**chaos-theme-service**:alpine)
+IMAGE_NAME=chaos-theme-service
+DEV_IMAGE_NAME="$IMAGE_NAME-dev"
+UAT_IMAGE_NAME="$IMAGE_NAME-uat"
+TST_IMAGE_NAME="$IMAGE_NAME-test"
+
+# Name of the Docker image type
+# (aka acbilson/chaos-theme-service:**alpine**)
+IMAGE_TYPE=alpine
+
+# The port exposed from within the container
+CONTAINER_PORT=80
+
+# The port exposed by the service outside the container instance.
+# Adds one for uat to avoid prod/uat port conflict
+EXPOSED_PORT=3000
+UAT_EXPOSED_PORT=$(expr $EXPOSED_PORT + 1)
+
+# UAT & Prod /dist path where files go for remote image builds
+UAT_DIST=/mnt/msata/build/uat
+PRD_DIST=/mnt/msata/build/prod
+
+
+#----------------------
+# Runtime-Specific
+#----------------------
+
+# Volume Paths
+# *_SRC is the local absolute path
+# *_DST is the Docker absolute path
+
+# Volume paths for container source code
+CODE_SOURCE_SRC=/Users/acbilson/source/chaos-theme-service/src
+CODE_SOURCE_DST=/mnt/src
+
+# Volume paths for container data
+DEV_CONTENT_SRC=/Users/acbilson/source/chaos-content
+UAT_CONTENT_SRC=/mnt/msata/source/chaos-content
+PRD_CONTENT_SRC=$UAT_CONTENT_SRC
+
+CONTENT_DST=/mnt/chaos/content
