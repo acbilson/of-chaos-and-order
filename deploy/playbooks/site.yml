@@ -1,0 +1,89 @@
+---
+- name: Deploy Hugo site container and nginx
+  hosts: web
+  become: true
+  gather_facts: true
+
+  handlers:
+    - name: reload nginx
+      ansible.builtin.service:
+        name: nginx
+        state: reloaded
+
+  tasks:
+    - name: Ensure runtime directories exist
+      ansible.builtin.file:
+        path: /opt/{{ app_name }}
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: Pull application image
+      ansible.builtin.command:
+        cmd: "{{ app_podman_binary }} pull {{ app_image }}"
+      register: podman_pull
+      changed_when: "'Downloaded newer image' in podman_pull.stdout or 'Downloaded newer image' in podman_pull.stderr or 'Copying blob' in podman_pull.stdout or 'Copying blob' in podman_pull.stderr"
+
+    - name: Check whether container exists
+      ansible.builtin.command:
+        cmd: "{{ app_podman_binary }} container exists {{ app_container_name }}"
+      register: container_exists
+      failed_when: false
+      changed_when: false
+
+    - name: Stop existing container
+      ansible.builtin.command:
+        cmd: "{{ app_podman_binary }} stop {{ app_container_name }}"
+      when: container_exists.rc == 0
+      register: stop_container
+      failed_when: stop_container.rc not in [0, 125]
+      changed_when: stop_container.rc == 0
+
+    - name: Remove existing container
+      ansible.builtin.command:
+        cmd: "{{ app_podman_binary }} rm -f {{ app_container_name }}"
+      when: container_exists.rc == 0
+      register: remove_container
+      failed_when: remove_container.rc not in [0, 1]
+      changed_when: remove_container.rc == 0
+
+    - name: Run site container
+      ansible.builtin.command:
+        cmd: >-
+          {{ app_podman_binary }} run -d
+          --name {{ app_container_name }}
+          --restart unless-stopped
+          -p {{ app_listen_host }}:{{ app_listen_port }}:{{ app_container_port }}
+          {{ app_image }}
+      register: run_container
+      changed_when: true
+
+    - name: Install nginx site config
+      ansible.builtin.template:
+        src: ../templates/nginx-site.conf.j2
+        dest: "{{ nginx_site_path }}"
+        owner: root
+        group: root
+        mode: "0644"
+      notify: reload nginx
+
+    - name: Enable nginx site config
+      ansible.builtin.file:
+        src: "{{ nginx_site_path }}"
+        dest: "{{ nginx_site_enabled_path }}"
+        state: link
+      notify: reload nginx
+
+    - name: Validate nginx configuration
+      ansible.builtin.command:
+        cmd: nginx -t
+      register: nginx_validate
+      changed_when: false
+
+    - name: Ensure nginx is running
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: true
+

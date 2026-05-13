@@ -1,0 +1,13 @@
+app_name: of-chaos-and-order
+app_image: docker.io/acbilson/of-chaos-and-order:latest
+app_container_name: of-chaos-and-order
+app_listen_host: 127.0.0.1
+app_listen_port: 6300
+app_container_port: 6300
+app_domain: alexbilson.dev
+app_server_name: alexbilson.dev www.alexbilson.dev
+app_podman_binary: /usr/bin/podman
+nginx_site_name: of-chaos-and-order.conf
+nginx_site_path: /etc/nginx/sites-available/{{ nginx_site_name }}
+nginx_site_enabled_path: /etc/nginx/sites-enabled/{{ nginx_site_name }}
+

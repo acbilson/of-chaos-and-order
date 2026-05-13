@@ -13,6 +13,9 @@ verify: build
 		--config /etc/hugo/config.toml \
 		--destination /tmp/of-chaos-and-order-build
 
+deploy-check:
+	cd deploy && ansible-playbook --syntax-check playbooks/site.yml
+
 start:
 	podman run -it --rm \
 		-p 6300:6300 \
