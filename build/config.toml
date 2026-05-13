@@ -1,5 +1,5 @@
 baseURL = "http://localhost:6300"
-languageCode = "en-us"
+locale = "en-US"
 title = "Of Chaos and Order"
 author = "Alex Bilson"
 theme = "of-chaos-and-order"
