@@ -1,4 +1,0 @@
-baseURL = 'https://example.org/'
-locale = 'en-US'
-title = 'My New Hugo Project'
-theme = 'of-chaos-and-order'
