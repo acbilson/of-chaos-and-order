@@ -22,18 +22,15 @@ RUN case "$TARGETARCH" in \
   && hugo version
 
 # adds theme, content and config
-RUN mkdir -p /app/hugo
-COPY ./content /app/hugo
-WORKDIR /app/hugo
-
-RUN mkdir -p /app/themes
-COPY ./themes /app/themes
+RUN mkdir -p /app/site/content /app/site/themes
+COPY ./content /app/site/content
+COPY ./themes /app/site/themes
 
 RUN mkdir -p /etc/hugo
 COPY ./build/config.toml /etc/hugo/config.toml
 
-WORKDIR /app
+WORKDIR /app/site
 
 EXPOSE 6300
 
-CMD ["hugo", "server", "--source", "/app/hugo", "--config", "/etc/hugo/config.toml", "--themesDir", "/app/themes", "--bind", "0.0.0.0", "--port", "6300", "--appendPort=false"]
+CMD ["hugo", "server", "--source", "/app/site", "--config", "/etc/hugo/config.toml", "--bind", "0.0.0.0", "--port", "6300", "--appendPort=false"]
