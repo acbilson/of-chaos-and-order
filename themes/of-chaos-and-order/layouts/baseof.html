@@ -4,14 +4,16 @@
   {{ partial "head.html" . }}
 </head>
 <body>
-  <header>
+  <div class="site-shell">
+  <header class="site-header">
     {{ partial "header.html" . }}
   </header>
-  <main>
+  <main class="site-main">
     {{ block "main" . }}{{ end }}
   </main>
-  <footer>
+  <footer class="site-footer">
     {{ partial "footer.html" . }}
   </footer>
+  </div>
 </body>
 </html>

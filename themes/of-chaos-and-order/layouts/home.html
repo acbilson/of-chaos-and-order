@@ -1,9 +1,70 @@
 {{ define "main" }}
-  {{ .Content }}
-  {{ range site.RegularPages }}
-    <section>
-      <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
-      {{ .Summary }}
-    </section>
-  {{ end }}
+  {{ $featuredWritings := first 3 (where site.RegularPages "Section" "writings") }}
+  {{ $subjects := slice
+    (dict "title" "Business" "path" "/writings/business/" "summary" "Advisory writing on strategy, delivery, and decision-making.")
+    (dict "title" "Software Development" "path" "/writings/software-development/" "summary" "Technical essays on architecture, engineering habits, and AI-enabled development.")
+    (dict "title" "Christian Mission" "path" "/writings/christian-mission/" "summary" "Reflections on mission, leadership, discipleship, and field support.")
+  }}
+
+  <section class="hero">
+    <div class="hero__eyebrow">Alex Bilson</div>
+    <h1>{{ site.Params.tagline }}</h1>
+    <p class="hero__lede">{{ site.Params.resumeSummary }}</p>
+    <div class="hero__actions">
+      <a class="button button--primary" href="/resume/">View Resume</a>
+      <a class="button button--secondary" href="/writings/">Browse Writings</a>
+    </div>
+  </section>
+
+  <section class="content-section content-section--intro">
+    <div class="section-heading">
+      <p class="section-heading__eyebrow">Positioning</p>
+      <h2>Professional consulting site structure</h2>
+    </div>
+    <div class="prose">
+      {{ .Content }}
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-heading">
+      <p class="section-heading__eyebrow">Focus Areas</p>
+      <h2>Three domains of work</h2>
+    </div>
+    <div class="card-grid card-grid--three">
+      {{ range $subjects }}
+        <article class="card">
+          <h3><a href="{{ .path }}">{{ .title }}</a></h3>
+          <p>{{ .summary }}</p>
+        </article>
+      {{ end }}
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-heading">
+      <p class="section-heading__eyebrow">Resume</p>
+      <h2>Selected consulting profile</h2>
+    </div>
+    <div class="card card--feature">
+      <p>Experience across delivery leadership, frontend architecture, backend systems, documentation, and stakeholder communication.</p>
+      <a class="text-link" href="/resume/">Read the placeholder resume</a>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-heading">
+      <p class="section-heading__eyebrow">Featured Writings</p>
+      <h2>Placeholder articles for the new site</h2>
+    </div>
+    <div class="card-grid">
+      {{ range $featuredWritings }}
+        <article class="card">
+          <p class="card__meta">{{ delimit .Params.subjects ", " }}</p>
+          <h3><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h3>
+          <p>{{ .Summary }}</p>
+        </article>
+      {{ end }}
+    </div>
+  </section>
 {{ end }}

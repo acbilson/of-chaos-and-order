@@ -3,12 +3,15 @@ locale = "en-US"
 title = "Of Chaos and Order"
 author = "Alex Bilson"
 theme = "of-chaos-and-order"
-sectionPagesMenu = "main"
 defaultColorMode = "light"
 
 [params]
 	PublishUri = "http://localhost:6300"
 	AuthenticationUri = "http://localhost:6300"
+	description = "Consulting, engineering, and writing by Alex Bilson across business, software development, and Christian mission."
+	tagline = "Consulting clarity for software, business, and mission-driven work."
+	contactEmail = "alex@alexbilson.dev"
+	resumeSummary = "Senior engineer and consultant with experience across frontend, backend, architecture, delivery, and stakeholder communication."
 
 [markup]
   [markup.highlight]
@@ -23,3 +26,38 @@ defaultColorMode = "light"
     noClasses = true
     style = "monokai"
     tabWidth = 4
+
+[taxonomies]
+  tag = "tags"
+  subject = "subjects"
+
+[menu]
+  [[menu.main]]
+    name = "Home"
+    pageRef = "/"
+    weight = 10
+
+  [[menu.main]]
+    name = "Resume"
+    pageRef = "/resume"
+    weight = 20
+
+  [[menu.main]]
+    name = "Writings"
+    pageRef = "/writings"
+    weight = 30
+
+  [[menu.main]]
+    name = "Business"
+    pageRef = "/writings/business"
+    weight = 40
+
+  [[menu.main]]
+    name = "Software"
+    pageRef = "/writings/software-development"
+    weight = 50
+
+  [[menu.main]]
+    name = "Christian Mission"
+    pageRef = "/writings/christian-mission"
+    weight = 60

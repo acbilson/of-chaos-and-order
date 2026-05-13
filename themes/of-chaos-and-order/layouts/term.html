@@ -1,7 +1,16 @@
 {{ define "main" }}
-  <h1>{{ .Title }}</h1>
-  {{ .Content }}
-  {{ range .Pages }}
-    <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
-  {{ end }}
+  <section class="section-page">
+    <header class="page-header">
+      <p class="page-header__eyebrow">Archive</p>
+      <h1>{{ .Title }}</h1>
+    </header>
+    <div class="card-grid">
+      {{ range .Pages.ByDate.Reverse }}
+        <article class="card">
+          <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
+          <p>{{ .Summary }}</p>
+        </article>
+      {{ end }}
+    </div>
+  </section>
 {{ end }}
