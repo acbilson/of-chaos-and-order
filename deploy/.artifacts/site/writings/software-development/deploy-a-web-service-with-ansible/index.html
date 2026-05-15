@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Deploy a web service with ansible | Of Chaos and Order</title>
+<meta name="description" content="Consulting, engineering, and writing by Alex Bilson across business, software development, and Christian mission.">
+
+    <link rel="stylesheet" href="/css/main.min.15b9897daa8f2645a1bb6d9f97813983558d4af5964fb67ee4560fcff4e12d63.css" integrity="sha256-FbmJfaqPJkWhu22fl4E5g1WNSvWWT7Z&#43;5FYPz/ThLWM=" crossorigin="anonymous">
+
+
+        <script src="/js/main.84c6028b11b946cfa2537137757786cd1206f8c99177e3edd766bb6a37ee5041.js" integrity="sha256-hMYCixG5Rs&#43;iU3E3dXeGzRIG&#43;MmRd&#43;Pt12a7ajfuUEE=" crossorigin="anonymous"></script>
+
+
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-bar site-shell">
+  
+  <nav class="site-nav" aria-label="Primary">
+    <ul>
+    <li>
+      <a href="/">Home</a>
+    </li>
+    <li>
+      <a href="/resume/">Resume</a>
+    </li>
+    <li>
+      <a aria-current="true" class="ancestor" href="/writings/">Writings</a>
+    </li>
+    <li>
+      <a href="/writings/business/">Business</a>
+    </li>
+    <li>
+      <a aria-current="true" class="ancestor" href="/writings/software-development/">Software</a>
+    </li>
+    <li>
+      <a href="/writings/christian-mission/">Christian Mission</a>
+    </li>
+    </ul>
+  </nav>
+
+</div>
+
+  </header>
+  <main class="site-main site-shell">
+    
+  <article class="page">
+    <header class="page-header">
+      <p class="page-header__eyebrow">Essay</p>
+      <h1>Deploy a web service with ansible</h1>
+      <div class="page-meta">
+        
+          <span>Software Development</span>
+        
+        
+          
+          
+          <time datetime="2020-07-29T00:00:00&#43;00:00">July 29, 2020</time>
+        
+      </div>
+    </header>
+
+    <div class="prose">
+      <p>I’ve been self-hosting my blog for nearly six months, and it’s become
+such a fun outlet that I want to be sure I could replicate it were
+something to happen. The source code is easy to store with tools like
+git, but I’ve felt increasingly uncertain that I’ll remember all my
+server configurations if I needed to deploy my site to a fresh box. At
+last, a real-world reason to learn an infrastructure-as-code tool!</p>
+<p>There are numerous options - Puppet, Chef, Terraform, Ansible - and not
+all of them fit my use-case, but in the end, I chose Ansible because it
+was a Python executable which meant I could use one of my favorite dev
+tools, virtualenv, to ensure a siloed, reproducible Ansible deployment
+setup. I love sandbox tools like docker and virtualenv because I never
+know what OS I’ll be running next. Also, I didn’t want to shift the
+config complexity from my webserver to my deployment infrastructure.</p>
+<p>From my first successful deployment, I’ve been extremely satisfied with
+Ansible. The module documentation is clear, the roles run fast enough,
+and it’s <a href="https://www.wordnik.com/words/idempotent">idempotent</a>. But
+most importantly, it meets my need to have complete documentation for
+every configuration on my webserver. But let me stop gushing about it
+and show you some examples!</p>
+<p>My first foray into the Ansible documentation led me to think that
+learning adhoc commands would be a good start, then playbooks, and
+finally roles. After a bit of tinkering; however, I realized that roles
+were conceptually simpler and fit the mental model I wanted - a
+description of various responsibilities a server might provide. For
+example, a server might offer web services, and an Ansible role should
+describe all the steps to convert any server into a webserver. An
+unexpected side effect of this mental model is that it’s led me to
+maintain functional distinctions that could be deployed to separate
+machines, even though at the moment it all resides on a single machine.</p>
+<p>ℹ️</p>
+<p>Caveat: I&rsquo;m going to choose a role I developed a few steps after the
+first. It&rsquo;s easier to describe and thus a better candidate for an
+example.</p>
+<p>After I’d established the bedrock roles I wanted for the webserver
+that’s hosting this site, I began to ponder what it’d take to automate
+the static site deployment. I’d read that others used Netlify tools to
+automate their site deployment so that they could add content without
+manually executing the commit-build-deploy steps. I didn’t want to move
+to Netlify today, so I needed a way to achieve what Netlify does on my
+own.</p>
+<p>The crux of the automation lies in responding to Github webhooks. If I
+automate the creation of new content to my Github repository, I need to
+receive a notification that the git push has occurred so that I can pull
+down the latest code, build, and deploy. I played with writing my server
+to accomplish this, but in the process, I discovered a handy package
+from <code>adnahn</code> called <a href="https://github.com/adnanh/webhook">webhook</a>. Now I
+have a process, the commit-build-deploy steps, and a role, the webhook
+server. Let’s take a look at the Ansible tasks!</p>
+<p>The first step was simple; the webhook package should be installed on
+the machine.</p>
+<pre tabindex="0"><code>- name: installs webhook server
+  apt:
+    name: webhook
+    state: latest
+  become: yes
+</code></pre><p>ℹ️</p>
+<p>You&rsquo;ll notice many tasks end with `become: yes`. This line indicates
+that the command requires heightened privileges to run.</p>
+<p>Somehow, the package doesn’t create it’s own /etc folder, so I take that
+step myself.</p>
+<pre tabindex="0"><code>- name: creates and sets hooks directory permissions
+  file:
+    path: /etc/webhook
+    state: directory
+    owner: root
+  become: yes
+</code></pre><p>Why did I need an /etc folder? To put my hook configuration in, of
+course! This copies the file from my machine to my target.</p>
+<pre tabindex="0"><code>- name: adds hooks.json
+  template:
+    src: hooks.json
+    dest: /etc/webhook/hooks.json
+    owner: root
+  become: yes
+</code></pre><p>The webhook project responds to incoming webhooks by running shell
+scripts. I need somewhere to store them, so I create a folder in
+/usr/lib.</p>
+<pre tabindex="0"><code>- name: creates and sets scripts directory permissions
+  file:
+    path: /usr/lib/webhook/scripts
+    state: directory
+    owner: root
+  become: yes
+</code></pre><p>With my folder created, it’s time to copy the three scripts I need for
+the commit-build-deploy process. This might have been wrapped into one
+iterative task (or compiled into a single script), but I wasn’t sure at
+the time whether I’d want a different configuration for any of the
+files. In my experience, it’s better to have some duplication where I’m
+uncertain of change than to prematurely optimize and split later.</p>
+<pre tabindex="0"><code>- name: adds script to create a new note
+  template:
+    src: new-note.sh
+    dest: /usr/lib/webhook/scripts/new-note.sh
+    owner: root
+    mode: &#39;0744&#39;
+  become: yes
+
+- name: adds script to pull from github
+  template:
+    src: git-pull.sh
+    dest: /usr/lib/webhook/scripts/git-pull.sh
+    owner: root
+    mode: &#39;0744&#39;
+  become: yes
+
+- name: adds script to deploy an update
+  template:
+    src: git-deploy.sh
+    dest: /usr/lib/webhook/scripts/git-deploy.sh
+    owner: root
+    mode: &#39;0744&#39;
+  become: yes
+</code></pre><p>With all the webhook installation complete, it’s time to proxy the
+server with Nginx.</p>
+<pre tabindex="0"><code>- name: adds nginx proxy config
+  template:
+    src: webhook_proxy
+    dest: /etc/nginx/sites-available/webhook_proxy
+  become: yes
+  notify: restart nginx
+
+  - name: enables nginx proxy config
+  file:
+    src: /etc/nginx/sites-available/webhook_proxy
+    dest: /etc/nginx/sites-enabled/webhook_proxy
+    state: link
+</code></pre><p>Did you catch the <code>notify: restart nginx</code> line? This refers to another
+task which should be executed after this completes, but only when
+there’s been a change. It’s nothing fancy.</p>
+<pre tabindex="0"><code>- name: restart nginx
+  service:
+    name: nginx
+    state: restarted
+  become: yes
+</code></pre><p>One last step to finish the proxy. I need to allow the webhook port
+through my firewall.</p>
+<pre tabindex="0"><code>- name: allows webhook port access
+  ufw:
+    rule: allow
+    port: &#39;6237&#39;
+    proto: tcp
+  become: yes
+</code></pre><p>There seem to be as many instructions for running a Linux service as
+there are Linux distros. I chose to create a systemd service to manage
+my webhook executable, but if you have a better idea, I’d love to hear
+it. I particularly want something efficient, fault-tolerant, and works
+on Debian.</p>
+<pre tabindex="0"><code>- name: adds systemd script to run webhooks
+  template:
+    src: webhook.service
+    dest: /lib/systemd/system/webhook.service
+    owner: root
+    mode: &#39;0644&#39;
+  become: yes
+  notify:
+    - reload daemon
+    - start webhook service
+
+- name: reload daemon
+  shell:
+    cmd: systemctl daemon-reload
+  become: yes
+
+- name: start webhook service
+  shell:
+    cmd: systemctl enable --now webhook.service
+  become: yes
+</code></pre><p>One of my next steps is to begin these tasks with better security
+configurations. The webhook server should run as a non-privileged user
+with permission only to what it requires. A couple of tasks to create a
+user and group, then ownership changes where I add new files and
+modifications to existing directories ought to do it.</p>
+<p>Once I feel more comfortable with the security posture, I’d like to
+extrapolate more of the configuration to a separate file that I can
+configure per execution. Wouldn’t it be sweet if I could point this
+script at a local test Docker image? Then I could be certain that both
+my testing and production configuration were identical.</p>
+
+    </div>
+    
+  <div>
+    <div>Tags:</div>
+    <ul>
+        <li><a href="/tags/ansible/">Ansible</a></li>
+        <li><a href="/tags/systemd/">Systemd</a></li>
+    </ul>
+  </div>
+
+  </article>
+
+  </main>
+  <footer class="site-footer">
+    <div class="footer-bar site-shell">
+  <div class="footer-bar__info">
+    <p class="footer-bar__title">Of Chaos and Order</p>
+    <p>Business, software development, and Christian mission writing.</p>
+  </div>
+  <div class="footer-bar__links">
+    <a href="/resume/">Resume</a>
+    <a href="/writings/">Writings</a>
+    <a href="mailto:alex@alexbilson.dev">alex@alexbilson.dev</a>
+  </div>
+</div>
+
+  </footer>
+</body>
+</html>

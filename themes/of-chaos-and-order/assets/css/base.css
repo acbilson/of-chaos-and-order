@@ -1,17 +1,24 @@
-@import "components/header.css";
-@import "components/footer.css";
-
 @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Source+Sans+3:wght@400;500;600;700&display=swap");
 
+[theme="minimal"]:root,
 :root {
-  --color-bg: #f5f1e8;
-  --color-surface: rgba(255, 255, 255, 0.72);
-  --color-ink: #1f2430;
-  --color-muted: #5c6678;
-  --color-accent: #956f2f;
-  --color-accent-dark: #6e5120;
-  --color-border: rgba(31, 36, 48, 0.14);
-  --shadow-soft: 0 24px 60px rgba(25, 31, 42, 0.08);
+  --color-eggshell: rgb(255, 255, 252);
+  --color-midnight: rgb(22, 22, 26);
+  --color-royalty: rgb(39, 35, 67);
+  --color-navy-blue: navy;
+  --color-primary: var(--color-royalty);
+  --color-secondary: var(--color-eggshell);
+  --color-tertiary: var(--color-navy-blue);
+  --color-stroke: var(--color-midnight);
+
+  --color-bg: var(--color-secondary);
+  --color-surface: rgba(255, 255, 252, 0.92);
+  --color-ink: var(--color-midnight);
+  --color-muted: rgba(39, 35, 67, 0.76);
+  --color-accent: var(--color-tertiary);
+  --color-accent-dark: var(--color-primary);
+  --color-border: rgba(22, 22, 26, 0.16);
+  --shadow-soft: 0 24px 60px rgba(22, 22, 26, 0.08);
   --font-body: "Source Sans 3", sans-serif;
   --font-display: "Fraunces", serif;
 }
@@ -26,8 +33,8 @@ html {
 
 body {
   background:
-    radial-gradient(circle at top left, rgba(149, 111, 47, 0.16), transparent 32%),
-    linear-gradient(180deg, #f9f5ec 0%, #f0ebe2 100%);
+    radial-gradient(circle at top left, rgba(39, 35, 67, 0.14), transparent 32%),
+    linear-gradient(180deg, var(--color-secondary) 0%, rgba(245, 245, 252, 1) 100%);
   color: var(--color-ink);
   font-family: var(--font-body);
   line-height: 1.65;
@@ -55,10 +62,11 @@ p {
 
 .site-main {
   min-height: 60vh;
+  padding-top: 1.5rem;
 }
 
 .hero {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(250, 245, 236, 0.82));
+  background: linear-gradient(135deg, rgba(255, 255, 252, 0.94), rgba(39, 35, 67, 0.08));
   border: 1px solid var(--color-border);
   border-radius: 28px;
   box-shadow: var(--shadow-soft);
@@ -69,7 +77,7 @@ p {
 }
 
 .hero::after {
-  background: linear-gradient(135deg, rgba(149, 111, 47, 0.2), transparent 55%);
+  background: linear-gradient(135deg, rgba(0, 0, 128, 0.16), transparent 55%);
   content: "";
   inset: 0;
   position: absolute;
@@ -129,7 +137,7 @@ p {
 
 .button--primary {
   background: var(--color-accent-dark);
-  color: #fff;
+  color: var(--color-secondary);
 }
 
 .button--secondary {
@@ -208,6 +216,69 @@ p {
 
 .text-link {
   font-weight: 700;
+}
+
+.chip {
+  background: rgba(39, 35, 67, 0.08);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  color: var(--color-accent-dark);
+  display: inline-flex;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-left: 0.45rem;
+  padding: 0.1rem 0.55rem;
+  text-transform: uppercase;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.callout {
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  margin: 1.75rem 0;
+  padding: 1.2rem 1.35rem;
+}
+
+.callout > :last-child,
+.callout__quote > :last-child {
+  margin-bottom: 0;
+}
+
+.callout--aside {
+  background: rgba(39, 35, 67, 0.06);
+  color: var(--color-ink);
+}
+
+.callout--aside::before {
+  color: var(--color-accent-dark);
+  content: "Aside";
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.65rem;
+  text-transform: uppercase;
+}
+
+.callout--quote {
+  background: rgba(0, 0, 128, 0.05);
+  border-left: 4px solid var(--color-accent);
+}
+
+.callout__quote {
+  margin: 0;
+}
+
+.callout__quote p {
+  font-size: 1.08rem;
+}
+
+.callout__source {
+  color: var(--color-muted);
+  font-size: 0.92rem;
+  margin-top: 0.85rem;
 }
 
 @media (max-width: 900px) {

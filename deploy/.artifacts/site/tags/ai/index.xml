@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ai on Of Chaos and Order</title>
+    <link>http://localhost:6300/tags/ai/</link>
+    <description>Recent content in Ai on Of Chaos and Order</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 13 May 2026 09:25:00 -0600</lastBuildDate>
+    <atom:link href="http://localhost:6300/tags/ai/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Development Patterns with AI</title>
+      <link>http://localhost:6300/writings/software-development/development-patterns-with-ai/</link>
+      <pubDate>Wed, 13 May 2026 09:25:00 -0600</pubDate>
+      <guid>http://localhost:6300/writings/software-development/development-patterns-with-ai/</guid>
+      <description>&lt;p&gt;This placeholder article represents the technical writing strand of the new site and loosely mirrors the role of the live essay on AI-assisted development.&lt;/p&gt;&#xA;&lt;h2 id=&#34;working-thesis&#34;&gt;Working Thesis&lt;/h2&gt;&#xA;&lt;p&gt;AI changes the rhythm of development work, but it does not remove the need for sound engineering judgment. The more quickly code can be generated, the more carefully a developer must frame problems, test assumptions, and isolate failure modes.&lt;/p&gt;&#xA;&lt;h2 id=&#34;placeholder-themes&#34;&gt;Placeholder Themes&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Exploration before commitment&lt;/li&gt;&#xA;&lt;li&gt;Structured prompts and structured output&lt;/li&gt;&#xA;&lt;li&gt;Breaking large implementation ideas into verifiable subtasks&lt;/li&gt;&#xA;&lt;li&gt;Maintaining rigor when iteration becomes cheap&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;future-direction&#34;&gt;Future Direction&lt;/h2&gt;&#xA;&lt;p&gt;The real migrated piece can include the sharper language and concrete examples from the live article, along with additional writing on architecture and engineering habits.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

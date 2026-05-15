@@ -1,8 +1,72 @@
 ---
-- name: Deploy Hugo site container and nginx
+- name: Build static site artifact locally
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    local_podman_binary: podman
+    local_site_image: docker.io/acbilson/of-chaos-and-order:latest
+    local_build_root: "{{ playbook_dir }}/../.artifacts"
+    local_site_build_dir: "{{ local_build_root }}/site"
+    local_site_archive: "{{ local_build_root }}/of-chaos-and-order-site.tar.gz"
+    repo_root: "{{ playbook_dir }}/../.."
+
+  tasks:
+    - name: Ensure local artifact directory exists
+      ansible.builtin.file:
+        path: "{{ local_build_root }}"
+        state: directory
+        mode: "0755"
+
+    - name: Remove previous local site build directory
+      ansible.builtin.file:
+        path: "{{ local_site_build_dir }}"
+        state: absent
+
+    - name: Recreate local site build directory
+      ansible.builtin.file:
+        path: "{{ local_site_build_dir }}"
+        state: directory
+        mode: "0755"
+
+    - name: Remove previous local site archive
+      ansible.builtin.file:
+        path: "{{ local_site_archive }}"
+        state: absent
+
+    - name: Build deployment image locally
+      ansible.builtin.command:
+        cmd: "{{ local_podman_binary }} build -f build/Dockerfile -t {{ local_site_image }} ."
+        chdir: "{{ repo_root }}"
+
+    - name: Render static site with deployment image
+      ansible.builtin.command:
+        cmd: >-
+          {{ local_podman_binary }} run --rm
+          -v {{ local_site_build_dir }}:/out
+          {{ local_site_image }}
+          hugo
+          --source /app/site
+          --config /etc/hugo/config.toml
+          --destination /out
+        chdir: "{{ repo_root }}"
+
+    - name: Archive rendered site for upload
+      ansible.builtin.archive:
+        path: "{{ local_site_build_dir }}/"
+        dest: "{{ local_site_archive }}"
+        format: gz
+
+- name: Publish static site and nginx config
   hosts: web
   become: true
   gather_facts: true
+
+  vars:
+    local_build_root: "{{ playbook_dir }}/../.artifacts"
+    local_site_archive: "{{ local_build_root }}/of-chaos-and-order-site.tar.gz"
+    remote_site_archive: /tmp/of-chaos-and-order-site.tar.gz
 
   handlers:
     - name: reload nginx
@@ -11,53 +75,34 @@
         state: reloaded
 
   tasks:
-    - name: Ensure runtime directories exist
+    - name: Ensure site root exists
       ansible.builtin.file:
-        path: /opt/{{ app_name }}
+        path: "{{ app_site_root }}"
         state: directory
         owner: root
         group: root
         mode: "0755"
 
-    - name: Pull application image
-      ansible.builtin.command:
-        cmd: "{{ app_podman_binary }} pull {{ app_image }}"
-      register: podman_pull
-      changed_when: "'Downloaded newer image' in podman_pull.stdout or 'Downloaded newer image' in podman_pull.stderr or 'Copying blob' in podman_pull.stdout or 'Copying blob' in podman_pull.stderr"
+    - name: Upload rendered site archive
+      ansible.builtin.copy:
+        src: "{{ local_site_archive }}"
+        dest: "{{ remote_site_archive }}"
+        owner: root
+        group: root
+        mode: "0644"
 
-    - name: Check whether container exists
-      ansible.builtin.command:
-        cmd: "{{ app_podman_binary }} container exists {{ app_container_name }}"
-      register: container_exists
-      failed_when: false
-      changed_when: false
-
-    - name: Stop existing container
-      ansible.builtin.command:
-        cmd: "{{ app_podman_binary }} stop {{ app_container_name }}"
-      when: container_exists.rc == 0
-      register: stop_container
-      failed_when: stop_container.rc not in [0, 125]
-      changed_when: stop_container.rc == 0
-
-    - name: Remove existing container
-      ansible.builtin.command:
-        cmd: "{{ app_podman_binary }} rm -f {{ app_container_name }}"
-      when: container_exists.rc == 0
-      register: remove_container
-      failed_when: remove_container.rc not in [0, 1]
-      changed_when: remove_container.rc == 0
-
-    - name: Run site container
-      ansible.builtin.command:
-        cmd: >-
-          {{ app_podman_binary }} run -d
-          --name {{ app_container_name }}
-          --restart unless-stopped
-          -p {{ app_listen_host }}:{{ app_listen_port }}:{{ app_container_port }}
-          {{ app_image }}
-      register: run_container
+    - name: Remove existing site root contents
+      ansible.builtin.shell:
+        cmd: "find {{ app_site_root | quote }} -mindepth 1 -maxdepth 1 -exec rm -rf {} +"
       changed_when: true
+
+    - name: Unpack rendered site
+      ansible.builtin.unarchive:
+        src: "{{ remote_site_archive }}"
+        dest: "{{ app_site_root }}"
+        remote_src: true
+        owner: root
+        group: root
 
     - name: Install nginx site config
       ansible.builtin.template:
@@ -78,7 +123,6 @@
     - name: Validate nginx configuration
       ansible.builtin.command:
         cmd: nginx -t
-      register: nginx_validate
       changed_when: false
 
     - name: Ensure nginx is running
@@ -87,3 +131,7 @@
         state: started
         enabled: true
 
+    - name: Remove uploaded site archive
+      ansible.builtin.file:
+        path: "{{ remote_site_archive }}"
+        state: absent

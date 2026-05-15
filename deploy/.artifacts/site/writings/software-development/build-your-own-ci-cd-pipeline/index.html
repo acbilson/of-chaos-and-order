@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Build your own CI/CD pipeline | Of Chaos and Order</title>
+<meta name="description" content="Consulting, engineering, and writing by Alex Bilson across business, software development, and Christian mission.">
+
+    <link rel="stylesheet" href="/css/main.min.15b9897daa8f2645a1bb6d9f97813983558d4af5964fb67ee4560fcff4e12d63.css" integrity="sha256-FbmJfaqPJkWhu22fl4E5g1WNSvWWT7Z&#43;5FYPz/ThLWM=" crossorigin="anonymous">
+
+
+        <script src="/js/main.84c6028b11b946cfa2537137757786cd1206f8c99177e3edd766bb6a37ee5041.js" integrity="sha256-hMYCixG5Rs&#43;iU3E3dXeGzRIG&#43;MmRd&#43;Pt12a7ajfuUEE=" crossorigin="anonymous"></script>
+
+
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-bar site-shell">
+  
+  <nav class="site-nav" aria-label="Primary">
+    <ul>
+    <li>
+      <a href="/">Home</a>
+    </li>
+    <li>
+      <a href="/resume/">Resume</a>
+    </li>
+    <li>
+      <a aria-current="true" class="ancestor" href="/writings/">Writings</a>
+    </li>
+    <li>
+      <a href="/writings/business/">Business</a>
+    </li>
+    <li>
+      <a aria-current="true" class="ancestor" href="/writings/software-development/">Software</a>
+    </li>
+    <li>
+      <a href="/writings/christian-mission/">Christian Mission</a>
+    </li>
+    </ul>
+  </nav>
+
+</div>
+
+  </header>
+  <main class="site-main site-shell">
+    
+  <article class="page">
+    <header class="page-header">
+      <p class="page-header__eyebrow">Essay</p>
+      <h1>Build your own CI/CD pipeline</h1>
+      <div class="page-meta">
+        
+          <span>Software Development</span>
+        
+        
+          
+          
+          <time datetime="2022-05-05T00:00:00&#43;00:00">May 5, 2022</time>
+        
+      </div>
+    </header>
+
+    <div class="prose">
+      <h2 id="the-journey-ends">The Journey Ends</h2>
+<p>My journey towards a self-hosted devops pipeline began a few years ago
+with steps to <a href="https://alexbilson.dev/plants/technology/architect-a-personal-devops-pipeline/#jump">architect a personal devops
+pipeline</a>. The system grew into the Podman era when I wrote how to <a href="https://alexbilson.dev/plants/technology/host-your-services-with-podman/#jump">host your services with podman</a>.</p>
+<p>Inspired by Christian Ştefănescu’s brilliant design for a <a href="https://www.0chris.com/tiny-ci-system.html">Tiny CI
+System</a> and motivated by the
+need to redeploy my entire web stack to a cloud server while we move,
+I’ve crafted my own minimal deployment system that may be the last step
+in my devops saga for a while.</p>
+<h2 id="step-1-ssh-access">Step 1: SSH Access</h2>
+<p>The first leg of the journey is to configure the server so that I can
+access it via SSH. These steps are common knowledge or a simple Google
+search so I won’t reiterate.</p>
+<h2 id="step-2-server-configuration">Step 2: Server Configuration</h2>
+<p>Now that I can use SSH I’m able to run my Ansible web/deployment server
+playbook. This playbook installs common admin programs, installs and
+configures my Nginx web server, and enables a firewall. It also installs
+podman, redis, and the glue scripts used for the CI/CD process.</p>
+<p>ℹ️</p>
+<p>Shoutout to Steve Owens for Ansible help with <a href="https://opensource.com/article/17/8/ansible-environment-management">Ansible Git Server
+Installation</a>.</p>
+<h2 id="step-3-chaos-suite-installation">Step 3: Chaos Suite Installation</h2>
+<p>With the server configured, I run a second Ansible playbook to install
+all my chaos suite roles. This installs the proxy configuration and
+systemd files, adds a bare Git repo, and includes a post-receive hook to
+interact with the CI/CD redis service.</p>
+<h2 id="step-4-add-git-remote">Step 4: Add Git Remote</h2>
+<p>The final step is to configure my local repo to push to the new remote.</p>
+<h2 id="how-it-works">How It Works</h2>
+<p>Let’s say I’m working on my chaos-micropub service. I’ve finished a
+feature and want to deploy it to production, so I <del>cut a release branch</del>
+merge it into master. Then I push the changes to my CI/CD-enabled
+remote.</p>
+<pre tabindex="0"><code>git push pi master
+</code></pre><p>I get a message back that reads:</p>
+<p>ℹ️</p>
+<p>started job 0d313b1e-cca8-11ec-8c59-67453021b8a9 for chaos-micropub.</p>
+<p>This job was added to a Redis queue along with a few hash set values
+that are relevant to the build: timestamp, ref, revision, and repo.</p>
+<p>A tiny-ci.sh script waits for updates to this queue and takes my job off
+the top. It gets the hash set values from Redis, changes to the repo
+directory and checks out the revision. It runs a standardized
+ci-build.sh Bash script in the repo that kicks off a Podman build <del>and
+restarts the systemd service</del> (see note below).</p>
+<p>When the image is built and the service bounced, the script updates the
+hash set with success and output values.</p>
+<h2 id="a-note-about-nonroot-containers">A Note About Nonroot Containers</h2>
+<p>You can make all of these steps work with root containers, but you’ll
+hit one snag when restarting a nonroot container that I haven’t solved
+yet. If you’re running any nonroot container with this method you’ll
+have to manually redeploy the systemd service.</p>
+<p>SystemD allows user-specific unit files which makes perfect sense to
+manage user-specific Podman containers. However, there’s not presently a
+way to execute a systemctl command to restart your container from within
+a script. If you have a line in your bash script that looks like this:</p>
+<pre tabindex="0"><code>systemctl --user restart container-micropub`
+</code></pre><p>It will fail with a message about XDG_RUNTIME_DIR and
+DEBUS_SESSION_BUS_ADDRESS.</p>
+<p>Some Googling revealed that you could run
+<code>loginctl enable-linger ${user}</code> to solve this, but it doesn’t quite
+work for this scenario. Linger allows your user to launch the systemd
+unit file at boot if it’s enabled. These errors are about something
+else.</p>
+<p>From what I have been able to gather, the problem (if you want to call
+it that) is isolation and identity. SystemD maintains strict isolation
+between systemd services for the root user and those for a specific
+user. If you try to restart the systemd service from a script, it balks
+because it can’t confirm that you’re a “real” user (identity). However,
+if you try to impersonate a user with root to hack your way in, it will
+also fail. Although the systemd manual mentioned the <code>--machine</code> flag
+can allow root to run systemd services as another user, I was not able
+to get it to work.</p>
+<p>So there’s no way that I’ve found to run a user’s systemd service except
+by logging in and doing it myself.</p>
+<h2 id="additional-steps-for-ease-of-use">Additional Steps For Ease-of-Use</h2>
+<p>I initially thought I’ll want a web UI to check the status of my builds.
+I may still; however, I’ve found a couple shortcuts that work perfectly
+fine for now. CLI to the rescue!</p>
+<p>First, checking the status of the build is a straightforward redis-cli
+command.</p>
+<pre tabindex="0"><code>ssh pi@web redis-cli hgetall c9a00824-d5fa-11ec-b339-27be07fe7dfd
+</code></pre><p>I can copy the Podman image hash from the output for later use. If the
+build succeeds, I restart the service (which works since it’s my
+terminal instance).</p>
+<pre tabindex="0"><code>ssh pi@web systemctl --user restart container-micropub
+</code></pre><p>And as a sanity check I can verify that the production image matches the
+my newly minted image hash with a little more CLI Kung-Fu.</p>
+<pre tabindex="0"><code>ssh pi@web &#39;podman inspect webhook | jq .[].Image&#39;
+</code></pre><p>Voila!</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Time and again on the road to a personal devops pipeline I thought it
+would end with Kubernetes. I had zero experience operating Linux systemd
+services or running containers outside Dockerland. Now I can write an
+Ansible role and deploy any number of services, managed by native
+systemd, isolated in nonroot containers, in less than an hour.</p>
+<p>I keep my Ansible deployments public. You may find them on Github
+<a href="https://github.com/acbilson/chaos-deploy">here</a>.</p>
+
+    </div>
+    
+  <div>
+    <div>Tags:</div>
+    <ul>
+        <li><a href="/tags/deployment/">Deployment</a></li>
+        <li><a href="/tags/ansible/">Ansible</a></li>
+        <li><a href="/tags/redis/">Redis</a></li>
+        <li><a href="/tags/ci/cd/">Ci/Cd</a></li>
+        <li><a href="/tags/systemd/">Systemd</a></li>
+        <li><a href="/tags/git/">Git</a></li>
+        <li><a href="/tags/podman/">Podman</a></li>
+    </ul>
+  </div>
+
+  </article>
+
+  </main>
+  <footer class="site-footer">
+    <div class="footer-bar site-shell">
+  <div class="footer-bar__info">
+    <p class="footer-bar__title">Of Chaos and Order</p>
+    <p>Business, software development, and Christian mission writing.</p>
+  </div>
+  <div class="footer-bar__links">
+    <a href="/resume/">Resume</a>
+    <a href="/writings/">Writings</a>
+    <a href="mailto:alex@alexbilson.dev">alex@alexbilson.dev</a>
+  </div>
+</div>
+
+  </footer>
+</body>
+</html>

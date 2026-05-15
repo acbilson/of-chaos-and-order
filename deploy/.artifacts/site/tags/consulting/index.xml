@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Consulting on Of Chaos and Order</title>
+    <link>http://localhost:6300/tags/consulting/</link>
+    <description>Recent content in Consulting on Of Chaos and Order</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 13 May 2026 09:15:00 -0600</lastBuildDate>
+    <atom:link href="http://localhost:6300/tags/consulting/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Consulting with Clarity Under Constraints</title>
+      <link>http://localhost:6300/writings/business/consulting-with-clarity/</link>
+      <pubDate>Wed, 13 May 2026 09:15:00 -0600</pubDate>
+      <guid>http://localhost:6300/writings/business/consulting-with-clarity/</guid>
+      <description>&lt;p&gt;This is a placeholder business article. Its job is to exercise the new section and single-page templates while signaling the tone of the future site.&lt;/p&gt;&#xA;&lt;h2 id=&#34;premise&#34;&gt;Premise&lt;/h2&gt;&#xA;&lt;p&gt;Good consulting work is not mainly about generating more options. It is about reducing confusion without hiding tradeoffs. A useful advisor helps a client understand what is true, what is risky, and what should happen next.&lt;/p&gt;&#xA;&lt;h2 id=&#34;placeholder-themes&#34;&gt;Placeholder Themes&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Turning vague requirements into concrete delivery options&lt;/li&gt;&#xA;&lt;li&gt;Explaining cost, timing, and scope without jargon&lt;/li&gt;&#xA;&lt;li&gt;Recommending restraint when a client is not ready to build&lt;/li&gt;&#xA;&lt;li&gt;Preserving trust by telling the truth early&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;future-direction&#34;&gt;Future Direction&lt;/h2&gt;&#xA;&lt;p&gt;The live version of this piece could draw from real consulting stories and business analysis work already described on the resume page.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

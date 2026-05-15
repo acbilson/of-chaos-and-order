@@ -1,7 +1,11 @@
-{{- with resources.Get "css/main.css" }}
-  {{- $css := . }}
+{{- $styles := slice (resources.Get "css/base.css") }}
+{{- range sort (resources.Match "css/components/*.css") "Name" }}
+  {{- $styles = $styles | append . }}
+{{- end }}
+{{- with $styles | resources.Concat "css/main.css" }}
+  {{- $css := . | minify }}
   {{- if hugo.IsProduction }}
-    {{- $css = $css | minify | fingerprint }}
+    {{- $css = $css | fingerprint }}
     <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}" crossorigin="anonymous">
   {{- else }}
     <link rel="stylesheet" href="{{ $css.RelPermalink }}">

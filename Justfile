@@ -13,10 +13,27 @@ verify: build
 		--config /etc/hugo/config.toml \
 		--destination /tmp/of-chaos-and-order-build
 
+render-tmp: build
+	rm -rf tmp/rendered-site
+	mkdir -p tmp/rendered-site
+	podman run --rm \
+		-v (pwd)/tmp/rendered-site:/out \
+		acbilson/of-chaos-and-order:latest \
+		hugo \
+		--source /app/site \
+		--config /etc/hugo/config.toml \
+		--destination /out
+
+render-tmp-list: render-tmp
+	find tmp/rendered-site -maxdepth 3 -type f | sort
+
+deploy:
+	cd deploy && ansible-playbook playbooks/site.yml
+
 deploy-check:
 	cd deploy && ansible-playbook --syntax-check playbooks/site.yml
 
-start:
+start: build
 	podman run -it --rm \
 		-p 6300:6300 \
 		--name of-chaos-and-order \

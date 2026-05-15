@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Risk on Of Chaos and Order</title>
+    <link>http://localhost:6300/tags/risk/</link>
+    <description>Recent content in Risk on Of Chaos and Order</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 20 Mar 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:6300/tags/risk/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Danger signals are outside customer base</title>
+      <link>http://localhost:6300/writings/business/danger-signals-are-outside-customer-base/</link>
+      <pubDate>Sat, 09 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>http://localhost:6300/writings/business/danger-signals-are-outside-customer-base/</guid>
+      <description>&lt;p&gt;When a corporation starts, its members rush to find customers, to meet&#xA;their needs, to iterate, to create, to re-invent. As the business grows,&#xA;they search for more customers with the problem their product/service&#xA;solves. As their customer base expands, they tailor their solution to&#xA;their customers needs. If their customers&amp;rsquo; needs change, they modify&#xA;their product to match. One might think this cycle would continue&#xA;forever. The slow, business-killing changes happen, not among one’s own&#xA;customer base, but with those who are not even customers - the&#xA;‘noncustomer’ (Drucker, referenced by Krames, pg. 95).&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Software Development on Of Chaos and Order</title>
+    <link>http://localhost:6300/writings/software-development/</link>
+    <description>Recent content in Software Development on Of Chaos and Order</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 13 May 2026 09:25:00 -0600</lastBuildDate>
+    <atom:link href="http://localhost:6300/writings/software-development/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Development Patterns with AI</title>
+      <link>http://localhost:6300/writings/software-development/development-patterns-with-ai/</link>
+      <pubDate>Wed, 13 May 2026 09:25:00 -0600</pubDate>
+      <guid>http://localhost:6300/writings/software-development/development-patterns-with-ai/</guid>
+      <description>&lt;p&gt;This placeholder article represents the technical writing strand of the new site and loosely mirrors the role of the live essay on AI-assisted development.&lt;/p&gt;&#xA;&lt;h2 id=&#34;working-thesis&#34;&gt;Working Thesis&lt;/h2&gt;&#xA;&lt;p&gt;AI changes the rhythm of development work, but it does not remove the need for sound engineering judgment. The more quickly code can be generated, the more carefully a developer must frame problems, test assumptions, and isolate failure modes.&lt;/p&gt;&#xA;&lt;h2 id=&#34;placeholder-themes&#34;&gt;Placeholder Themes&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Exploration before commitment&lt;/li&gt;&#xA;&lt;li&gt;Structured prompts and structured output&lt;/li&gt;&#xA;&lt;li&gt;Breaking large implementation ideas into verifiable subtasks&lt;/li&gt;&#xA;&lt;li&gt;Maintaining rigor when iteration becomes cheap&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;future-direction&#34;&gt;Future Direction&lt;/h2&gt;&#xA;&lt;p&gt;The real migrated piece can include the sharper language and concrete examples from the live article, along with additional writing on architecture and engineering habits.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Build your own CI/CD pipeline</title>
+      <link>http://localhost:6300/writings/software-development/build-your-own-ci-cd-pipeline/</link>
+      <pubDate>Thu, 05 May 2022 00:00:00 +0000</pubDate>
+      <guid>http://localhost:6300/writings/software-development/build-your-own-ci-cd-pipeline/</guid>
+      <description>&lt;h2 id=&#34;the-journey-ends&#34;&gt;The Journey Ends&lt;/h2&gt;&#xA;&lt;p&gt;My journey towards a self-hosted devops pipeline began a few years ago&#xA;with steps to &lt;a href=&#34;https://alexbilson.dev/plants/technology/architect-a-personal-devops-pipeline/#jump&#34;&gt;architect a personal devops&#xA;pipeline&lt;/a&gt;. The system grew into the Podman era when I wrote how to &lt;a href=&#34;https://alexbilson.dev/plants/technology/host-your-services-with-podman/#jump&#34;&gt;host your services with podman&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Inspired by Christian Ştefănescu’s brilliant design for a &lt;a href=&#34;https://www.0chris.com/tiny-ci-system.html&#34;&gt;Tiny CI&#xA;System&lt;/a&gt; and motivated by the&#xA;need to redeploy my entire web stack to a cloud server while we move,&#xA;I’ve crafted my own minimal deployment system that may be the last step&#xA;in my devops saga for a while.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Files are loosely coupled interfaces</title>
+      <link>http://localhost:6300/writings/software-development/files-are-loosely-coupled-interfaces/</link>
+      <pubDate>Wed, 16 Mar 2022 00:00:00 +0000</pubDate>
+      <guid>http://localhost:6300/writings/software-development/files-are-loosely-coupled-interfaces/</guid>
+      <description>&lt;p&gt;How does one build an interoperable ecosystem of personal (or communal)&#xA;applications? Impressed by Linus Lee’s &lt;a href=&#34;https://github.com/thesephist&#34;&gt;enormous&#xA;ecosystem&lt;/a&gt;, I emailed him with my own&#xA;questions about underlying data structures. He pointed me to an&#xA;invaluable article by Gordon Brander, &lt;a href=&#34;https://subconscious.substack.com/p/if-headers-did-not-exist-it-would?s=r&#34;&gt;if headers did not exist, it&#xA;would be necessary to invent&#xA;them&lt;/a&gt;.&#xA;Linus summarizes:&lt;/p&gt;&#xA;&lt;p&gt;💬&lt;/p&gt;&#xA;&lt;p&gt;The basic idea is that documents and entities are key-value pairs, with&#xA;a few &amp;ldquo;blessed&amp;rdquo; keys that are universal and an open space for other keys&#xA;to become used by specific use cases. I think this is a good way to&#xA;reduce coupling between apps and data sources while letting systems&#xA;interact.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Use the minimum number of machines</title>
+      <link>http://localhost:6300/writings/software-development/use-the-minimum-number-of-machines/</link>
+      <pubDate>Fri, 28 Jan 2022 00:00:00 +0000</pubDate>
+      <guid>http://localhost:6300/writings/software-development/use-the-minimum-number-of-machines/</guid>
+      <description>&lt;p&gt;Whether hosting a personal web service or launching entrepreneurial&#xA;software, use the least number of machines to achieve your goal.&lt;/p&gt;&#xA;&lt;p&gt;Because of the prevalence of cluster software like Kubernetes, you may&#xA;conclude that the way of the future for any software is to run inside a&#xA;geographically dispersed, distributed set of Kubernetes clusters. Talk&#xA;of the power of microservices and the incredible feats of engineering&#xA;that Google, Facebook, and Amazon have achieved with these power tools&#xA;builds a lot of FOMO in our industry. But you must resist the urge.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Deploy a web service with ansible</title>
+      <link>http://localhost:6300/writings/software-development/deploy-a-web-service-with-ansible/</link>
+      <pubDate>Wed, 29 Jul 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:6300/writings/software-development/deploy-a-web-service-with-ansible/</guid>
+      <description>&lt;p&gt;I’ve been self-hosting my blog for nearly six months, and it’s become&#xA;such a fun outlet that I want to be sure I could replicate it were&#xA;something to happen. The source code is easy to store with tools like&#xA;git, but I’ve felt increasingly uncertain that I’ll remember all my&#xA;server configurations if I needed to deploy my site to a fresh box. At&#xA;last, a real-world reason to learn an infrastructure-as-code tool!&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

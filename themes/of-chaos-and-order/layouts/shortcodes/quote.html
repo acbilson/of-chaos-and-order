@@ -1,0 +1,9 @@
+{{- $body := .Inner | $.Page.RenderString -}}
+<figure class="callout callout--quote">
+  <blockquote class="callout__quote">
+    {{- $body -}}
+  </blockquote>
+  {{- with .Get "source" }}
+    <figcaption class="callout__source">{{ . | markdownify }}</figcaption>
+  {{- end }}
+</figure>

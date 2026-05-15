@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Architecture on Of Chaos and Order</title>
+    <link>http://localhost:6300/tags/architecture/</link>
+    <description>Recent content in Architecture on Of Chaos and Order</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 06 Apr 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:6300/tags/architecture/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Use the minimum number of machines</title>
+      <link>http://localhost:6300/writings/software-development/use-the-minimum-number-of-machines/</link>
+      <pubDate>Fri, 28 Jan 2022 00:00:00 +0000</pubDate>
+      <guid>http://localhost:6300/writings/software-development/use-the-minimum-number-of-machines/</guid>
+      <description>&lt;p&gt;Whether hosting a personal web service or launching entrepreneurial&#xA;software, use the least number of machines to achieve your goal.&lt;/p&gt;&#xA;&lt;p&gt;Because of the prevalence of cluster software like Kubernetes, you may&#xA;conclude that the way of the future for any software is to run inside a&#xA;geographically dispersed, distributed set of Kubernetes clusters. Talk&#xA;of the power of microservices and the incredible feats of engineering&#xA;that Google, Facebook, and Amazon have achieved with these power tools&#xA;builds a lot of FOMO in our industry. But you must resist the urge.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
