@@ -43,21 +43,16 @@ defaultColorMode = "light"
     weight = 20
 
   [[menu.main]]
-    name = "Writings"
-    pageRef = "/writings"
-    weight = 30
-
-  [[menu.main]]
     name = "Business"
     pageRef = "/writings/business"
-    weight = 40
+    weight = 30
 
   [[menu.main]]
     name = "Software"
     pageRef = "/writings/software-development"
-    weight = 50
+    weight = 40
 
   [[menu.main]]
     name = "Christian Mission"
     pageRef = "/writings/christian-mission"
-    weight = 60
+    weight = 50
