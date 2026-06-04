@@ -8,10 +8,11 @@ defaultColorMode = "light"
 [params]
 	PublishUri = "http://localhost:6300"
 	AuthenticationUri = "http://localhost:6300"
-	description = "Consulting, engineering, and writing by Alex Bilson across business, software development, and Christian mission."
-	tagline = "Consulting clarity for software, business, and mission-driven work."
+	description = "Alex Bilson helps organizations focus ideas, ignite action, and refine what matters across business, software development, and Christian mission."
+	tagline = "I help organizations focus ideas, ignite action, and refine what matters."
+	catchphrase = "Clarity. Ignition. Refinement."
 	contactEmail = "alex@alexbilson.dev"
-	resumeSummary = "Senior engineer and consultant with experience across frontend, backend, architecture, delivery, and stakeholder communication."
+	resumeSummary = "Senior engineer and advisor working across software delivery, business clarity, and Christian mission."
 
 [markup]
   [markup.highlight]
