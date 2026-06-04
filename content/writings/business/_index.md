@@ -3,9 +3,9 @@ title = "Business"
 date = 2026-05-13T09:10:00-06:00
 draft = false
 eyebrow = "Subject Area"
-description = "Placeholder business writing index."
+description = "Writing on consulting judgment, strategy, execution, and business clarity."
 +++
 
-This placeholder section is for writing about consulting judgment, strategy, operations, and delivery decisions.
+Business problems are rarely solved by raw effort alone. They are usually clarified by better framing, better questions, and a better grasp of the forces already shaping the system.
 
-The final version should help prospective clients understand how Alex thinks about ambiguity, tradeoffs, and implementation risk.
+These essays focus on strategy, delivery, business-model thinking, and the practical judgment required to move from vague ambition to coherent action.
