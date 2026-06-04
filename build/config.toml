@@ -12,8 +12,7 @@ defaultColorMode = "light"
 	tagline = "I help organizations focus ideas, ignite action, and refine what matters."
 	catchphrase = "Clarity. Ignition. Refinement."
 	contactEmail = "alex@alexbilson.dev"
-	resumeSummary = "Senior engineer and advisor working across software delivery, business clarity, and Christian mission."
-
+	resumeSummary = "Business/technology consultant and senior software engineer advising at the intersection of LLM coding, entrepreneurship, and Christian mission."
 [markup]
   [markup.highlight]
     anchorLineNos = false

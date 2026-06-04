@@ -1,10 +1,16 @@
 {{ define "main" }}
-  {{ $featuredWritings := first 3 (where site.RegularPages "Section" "writings") }}
   {{ $subjects := slice
     (dict "title" "Business" "path" "/writings/business/" "summary" "Advisory writing on strategy, delivery, and decision-making.")
     (dict "title" "Software Development" "path" "/writings/software-development/" "summary" "Technical essays on architecture, engineering habits, and AI-enabled development.")
     (dict "title" "Christian Mission" "path" "/writings/christian-mission/" "summary" "Reflections on mission, leadership, discipleship, and field support.")
   }}
+  {{ $featuredWritings := slice }}
+  {{ range $subjects }}
+    {{ $latestInDomain := first 1 (where site.RegularPages "CurrentSection.RelPermalink" .path) }}
+    {{ with index $latestInDomain 0 }}
+      {{ $featuredWritings = $featuredWritings | append . }}
+    {{ end }}
+  {{ end }}
 
   <section class="hero">
     <div class="hero__eyebrow">Alex Bilson</div>
@@ -18,8 +24,8 @@
 
   <section class="content-section content-section--visual">
     <div class="section-heading">
-      <p class="section-heading__eyebrow">Visual Framework</p>
-      <h2>Focus the light. Ignite the mission.</h2>
+      <p class="section-heading__eyebrow">Consulting Framework</p>
+      <h2>Focusing the best of what you bring to the place it's needed most.</h2>
     </div>
     <figure class="hero-visual">
       <img
@@ -34,7 +40,7 @@
   <section class="content-section">
     <div class="section-heading">
       <p class="section-heading__eyebrow">Focus Areas</p>
-      <h2>Three domains of work</h2>
+      <h2>Three domains</h2>
     </div>
     <div class="card-grid card-grid--three">
       {{ range $subjects }}
@@ -43,17 +49,6 @@
           <p>{{ .summary }}</p>
         </article>
       {{ end }}
-    </div>
-  </section>
-
-  <section class="content-section">
-    <div class="section-heading">
-      <p class="section-heading__eyebrow">Resume</p>
-      <h2>Experience that turns direction into delivery</h2>
-    </div>
-    <div class="card card--feature">
-      <p>Experience across delivery leadership, frontend architecture, backend systems, documentation, and stakeholder communication.</p>
-      <a class="text-link" href="/resume/">View the resume</a>
     </div>
   </section>
 
