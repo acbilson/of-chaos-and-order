@@ -1,5 +1,5 @@
 {{ define "main" }}
-  <article class="page">
+  <article class="page{{ if eq .Section "resume" }} page--resume{{ end }}">
     <header class="page-header">
       {{ with .Params.eyebrow }}<p class="page-header__eyebrow">{{ . }}</p>{{ end }}
       <h1>{{ .Title }}</h1>

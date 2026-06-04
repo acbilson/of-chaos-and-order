@@ -14,96 +14,96 @@ Hiring is an anxiety-producing process. You do not know me, I do not know you, a
 
 I work at the intersection of three recurring emphases:
 
-- Building, debugging, and improving real systems across frontend, backend, infrastructure, and documentation {{< chip "Software Development" >}}
-- Translating technical ambiguity into plans, estimates, workflows, and decisions that non-technical stakeholders can use {{< chip "Business" >}}
-- Preparing, supporting, and strengthening teams with practical care, prayer, leadership, and follow-through {{< chip "Christian Mission" >}}
+- Building, debugging, and improving real systems across frontend, backend, infrastructure, and documentation
+- Translating technical ambiguity into plans, estimates, workflows, and decisions that non-technical stakeholders can use
+- Preparing, supporting, and strengthening teams with practical care, prayer, leadership, and follow-through
 
 ## Career Journey
 
 ### 2024
 
-- Serves as the web specialist for two major projects at Performance Trust after transferring teams: a [new derivatives business line](https://alexbilson.dev/resume/#derivatives-ui) and a rebuild of an older Web Forms application using Angular 18, Material UI, and SyncFusion. {{< chip "Software Development" >}}
-- Contributes to a business line that has been materially lucrative for the firm while helping shape the front-end delivery of new products. {{< chip "Business" >}}
+- Serves as the web specialist for two major projects at Performance Trust after transferring teams: a [new derivatives business line](https://alexbilson.dev/resume/#derivatives-ui) and a rebuild of an older Web Forms application using Angular 18, Material UI, and SyncFusion.
+- Contributes to a business line that has been materially lucrative for the firm while helping shape the front-end delivery of new products.
 
 ### 2023
 
-- Builds the greenfield [Regulatory Crawler](https://alexbilson.dev/resume/#regulatory-crawler), a .NET 8 Core application, and learns to configure NSwag to generate OpenAPI clients. {{< chip "Software Development" >}}
-- Develops and presents an internal Lunch N' Learn on modern CSS, helping balance a server-heavy engineering culture and becoming the resident CSS specialist. {{< chip "Software Development" >}}
+- Builds the greenfield [Regulatory Crawler](https://alexbilson.dev/resume/#regulatory-crawler), a .NET 8 Core application, and learns to configure NSwag to generate OpenAPI clients.
+- Develops and presents an internal Lunch N' Learn on modern CSS, helping balance a server-heavy engineering culture and becoming the resident CSS specialist.
 
 ### 2022
 
-- Delivers the Data+ Web Tool in Angular, producing a flexible, performant, low-bug tool that was praised internally. {{< chip "Software Development" >}}
-- Leads major implementation work on the [Call Report Parser](https://alexbilson.dev/resume/#call-report-parser), a project assigned because I was the only team member proficient in Python. {{< chip "Software Development" >}}
-- Works deeply enough in the Call Report Parser stack to file a bug report against Python Selenium. {{< chip "Software Development" >}}
+- Delivers the Data+ Web Tool in Angular, producing a flexible, performant, low-bug tool that was praised internally.
+- Leads major implementation work on the [Call Report Parser](https://alexbilson.dev/resume/#call-report-parser), a project assigned because I was the only team member proficient in Python.
+- Works deeply enough in the Call Report Parser stack to file a bug report against Python Selenium.
 
 ### 2021
 
-- Completes the initial requirements for a first major project on time and documents the approach in [Angular Architecture](https://alexbilson.dev/resume/#angular-architecture). {{< chip "Software Development" >}}
+- Completes the initial requirements for a first major project on time and documents the approach in [Angular Architecture](https://alexbilson.dev/resume/#angular-architecture).
 
 ### 2020
 
-- Creates a [PowerShell script](https://alexbilson.dev/resume/) that simplifies collaboration and prevents build conflicts across more than eight GitLab repositories. {{< chip "Software Development" >}}
-- Graduates from Global Leadership University with a Master of Business Administration in Entrepreneurial Studies. {{< chip "Business" >}}
-- Incorporates a technology consulting firm. {{< chip "Business" >}}
-- Self-hosts this website for the first time on a Raspberry Pi using Hugo, GitHub, Nginx, and Ansible. {{< chip "Software Development" >}}
-- Consults with Witty Butterfly to draft software requirements for SwordSpeak, their first product. {{< chip "Business" >}}
-- Produces a comprehensive implementation plan with options, costs, and timing estimates for a non-technical founder, then advises restraint rather than upselling more work. {{< chip "Business" >}}
-- Drafts a seven-page requirements document, a twenty-two-week deployment estimate, and a statement of work for a first project at PTCP. {{< chip "Business" >}}
-- Welcomes my second son, Royal. {{< chip "Christian Mission" >}}
+- Creates a [PowerShell script](https://alexbilson.dev/resume/) that simplifies collaboration and prevents build conflicts across more than eight GitLab repositories.
+- Graduates from Global Leadership University with a Master of Business Administration in Entrepreneurial Studies.
+- Incorporates a technology consulting firm.
+- Self-hosts this website for the first time on a Raspberry Pi using Hugo, GitHub, Nginx, and Ansible.
+- Consults with Witty Butterfly to draft software requirements for SwordSpeak, their first product.
+- Produces a comprehensive implementation plan with options, costs, and timing estimates for a non-technical founder, then advises restraint rather than upselling more work.
+- Drafts a seven-page requirements document, a twenty-two-week deployment estimate, and a statement of work for a first project at PTCP.
+- Welcomes my second son, Royal.
 
 > "I have a fledgling tech company and hired Alex Bilson to be a project manager for our first app... Alex was able to convert highly technological ideas and processes into something I could understand and make decisions about what I wanted... Alex recommended that I already had enough to do beta testing... I appreciated his honesty and integrity... I will hire him again when I'm ready to upgrade my app." - Andrea Bacon
 
 ### 2019
 
-- Consults for [Clair Atkins](https://www.linkedin.com/in/clairatkins/) to help close a major deal during Relativity's SaaS transformation. {{< chip "Business" >}}
-- Leads the technical roundtable conversation in Nashville, then systematically addresses barriers over the following six months. {{< chip "Business" >}}
-- Bridges communication between database architects, salespeople, client leaders, and software architects. {{< chip "Business" >}}
-- Completes a 16-point consultation for Alexandra Hoerr's [counseling startup](https://optimumjoyclinicalcounseling.com), culminating in a 100-page capstone. {{< chip "Business" >}}
+- Consults for [Clair Atkins](https://www.linkedin.com/in/clairatkins/) to help close a major deal during Relativity's SaaS transformation.
+- Leads the technical roundtable conversation in Nashville, then systematically addresses barriers over the following six months.
+- Bridges communication between database architects, salespeople, client leaders, and software architects.
+- Completes a 16-point consultation for Alexandra Hoerr's [counseling startup](https://optimumjoyclinicalcounseling.com), culminating in a 100-page capstone.
 
 ### 2018
 
-- Co-leads a three-hour RelativityFest workshop on building a Relativity Integration Point provider. {{< chip "Software Development" >}}
-- Builds a prototype IronPython integration quickly enough to demo it live for a prospective Silicon Valley client integrating Python with RelativityOne. {{< chip "Software Development" >}}
-- Welcomes my first son, Graham. {{< chip "Christian Mission" >}}
+- Co-leads a three-hour RelativityFest workshop on building a Relativity Integration Point provider.
+- Builds a prototype IronPython integration quickly enough to demo it live for a prospective Silicon Valley client integrating Python with RelativityOne.
+- Welcomes my first son, Graham.
 
 ### 2017
 
-- Designs and implements a customer-success workflow in Asana that gives company-wide visibility into the technical status of more than 50 clients. {{< chip "Business" >}}
+- Designs and implements a customer-success workflow in Asana that gives company-wide visibility into the technical status of more than 50 clients.
 
 ### 2016
 
-- Pioneers the first technical business analyst position, sets the bar for client satisfaction and technical acumen, and creates workflows, templates, and processes to onboard the next five TBAs. {{< chip "Business" >}}
+- Pioneers the first technical business analyst position, sets the bar for client satisfaction and technical acumen, and creates workflows, templates, and processes to onboard the next five TBAs.
 
 ### 2015
 
-- Leads the team's migration from LeanKit to Jira by documenting how the team actually works and consulting with Jira administrators to map those workflows correctly. {{< chip "Business" >}}
-- Designs the MVP for a Relativity-based FOIA application from two conversations and a 400-page government specification; Deloitte later takes it forward to win the [2018 Solution Provider Innovation Award](https://relativityfest.com). {{< chip "Business" >}}
+- Leads the team's migration from LeanKit to Jira by documenting how the team actually works and consulting with Jira administrators to map those workflows correctly.
+- Designs the MVP for a Relativity-based FOIA application from two conversations and a 400-page government specification; Deloitte later takes it forward to win the [2018 Solution Provider Innovation Award](https://relativityfest.com).
 
 ### 2014
 
-- Graduates DeVry University with honors and a Bachelor's in Computer Information Systems. {{< chip "Software Development" >}}
-- Writes first company production code in a C# .NET MVC application called Relativity Event Handler Express. {{< chip "Software Development" >}}
-- Learns test-driven development, adopts NUnit and RhinoMocks, advocates for mandatory testing, and helps set the team's unit testing guidelines. {{< chip "Software Development" >}}
+- Graduates DeVry University with honors and a Bachelor's in Computer Information Systems.
+- Writes first company production code in a C# .NET MVC application called Relativity Event Handler Express.
+- Learns test-driven development, adopts NUnit and RhinoMocks, advocates for mandatory testing, and helps set the team's unit testing guidelines.
 
 > "I had the pleasure of working together with Alex on multiple development projects. He is a skilled coder and passionate about finding and implementing good design patterns. He possess some of the deepest knowledge I've seen on unit testing frameworks and he uses it to increase the quality of deliverables." - Marlon Smith
 
 ### 2010
 
-- While stationed in Afghanistan, mines thousands of technical records to identify threat locations and persuade senior leaders to collect data, deploy special forces, and anticipate attacks with data-driven presentations. {{< chip "Business" >}}
+- While stationed in Afghanistan, mines thousands of technical records to identify threat locations and persuade senior leaders to collect data, deploy special forces, and anticipate attacks with data-driven presentations.
 
 ### 2009
 
-- Incorporates a mobile coffee shop LLC in Denver, Colorado. {{< chip "Business" >}}
-- Hosts the company website with Bluehost on WordPress, learns HTML and CSS from scratch, and adds logic with PHP. {{< chip "Software Development" >}}
+- Incorporates a mobile coffee shop LLC in Denver, Colorado.
+- Hosts the company website with Bluehost on WordPress, learns HTML and CSS from scratch, and adds logic with PHP.
 
 ### 2007
 
-- Monitors world-wide sea traffic for suspicious patterns and supplies risk assessments to leaders. {{< chip "Business" >}}
+- Monitors world-wide sea traffic for suspicious patterns and supplies risk assessments to leaders.
 
 ### 2006
 
-- Graduates from communications intelligence school at the top of the class. {{< chip "Business" >}}
+- Graduates from communications intelligence school at the top of the class.
 
 ### 2004
 
-- Takes a high school Java class that first sets the direction toward a future degree in Computer Information Systems. {{< chip "Software Development" >}}
+- Takes a high school Java class that first sets the direction toward a future degree in Computer Information Systems.
