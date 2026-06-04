@@ -64,7 +64,9 @@ Across the years, those three domains have not been separate tracks. Software wo
 - Self-hosts this website for the first time on a Raspberry Pi using Hugo, GitHub, Nginx, and Ansible.
 - Welcomes my second son, Royal.
 
-> "I have a fledgling tech company and hired Alex Bilson to be a project manager for our first app... Alex was able to convert highly technological ideas and processes into something I could understand and make decisions about what I wanted... Alex recommended that I already had enough to do beta testing... I appreciated his honesty and integrity... I will hire him again when I'm ready to upgrade my app." - Andrea Bacon
+{{< quote source="Andrea Bacon" >}}
+I have a fledgling tech company and hired Alex Bilson to be a project manager for our first app... Alex was able to convert highly technological ideas and processes into something I could understand and make decisions about what I wanted... Alex recommended that I already had enough to do beta testing... I appreciated his honesty and integrity... I will hire him again when I'm ready to upgrade my app.
+{{< /quote >}}
 
 ### 2019
 
@@ -105,7 +107,9 @@ Across the years, those three domains have not been separate tracks. Software wo
 - Learns test-driven development, adopts NUnit and RhinoMocks, advocates for mandatory testing, and helps set the team's unit testing guidelines.
 - Completes missionary-intern training with Training Ordinary Apprentices to Go, studying church-planting methods, conflict resolution, spiritual gifts, and Discovery Bible Study while mentoring later interns.
 
-> "I had the pleasure of working together with Alex on multiple development projects. He is a skilled coder and passionate about finding and implementing good design patterns. He possess some of the deepest knowledge I've seen on unit testing frameworks and he uses it to increase the quality of deliverables." - Marlon Smith
+{{< quote source="Marlon Smith" >}}
+I had the pleasure of working together with Alex on multiple development projects. He is a skilled coder and passionate about finding and implementing good design patterns. He possess some of the deepest knowledge I've seen on unit testing frameworks and he uses it to increase the quality of deliverables.
+{{< /quote >}}
 
 ### 2013
 
