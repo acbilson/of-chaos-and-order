@@ -1,5 +1,5 @@
 {{ define "main" }}
-  <article class="page{{ if eq .Section "resume" }} page--resume{{ end }}">
+  <article class="page{{ if eq .RelPermalink "/resume/" }} page--resume{{ end }}">
     <header class="page-header">
       {{ with .Params.eyebrow }}<p class="page-header__eyebrow">{{ . }}</p>{{ end }}
       <h1>{{ .Title }}</h1>
@@ -18,6 +18,8 @@
     <div class="prose">
       {{ .Content }}
     </div>
-    {{ partial "terms.html" (dict "taxonomy" "tags" "page" .) }}
+    {{ if ne .RelPermalink "/resume/" }}
+      {{ partial "terms.html" (dict "taxonomy" "tags" "page" .) }}
+    {{ end }}
   </article>
 {{ end }}
