@@ -8,67 +8,78 @@ subjects = ['Business']
 tags = ['feedback', 'repetition', 'intervention', 'refinement']
 aliases = ['/plants/business/compensating-feedback-happens-when-the-root-problem-is-not-addressed/']
 +++
-How often does our first response to a problem result in more work for
-ourselves in the long run? We see a problem and apply the first patch
-that comes to mind. Meanwhile, the origin of the problem goes untouched
-and, in due time, a new problem springs up. If the problems multiply, we
-add more effort until we burn out or finally discover our fixes haven’t
-touched the root problem. this is called compensating feedback, and it
-happens when an intervention makes momentary improvement but negatively
-impacts another part of the system, which eventually returns the favor.
+**When a problem keeps returning, the organization is often correcting a
+symptom instead of changing the system that produces it.**
 
-Let’s say a person undergoes surgery to relieve debilitating back pain.
-The surgery works, the back pain is gone, and after recovery, the person
-moves happily on with their life as a grocer. Months later, the back
-pain begins to return. Why? Because, while the surgery fix did relieve
-the back symptoms, it did not address the person’s bad habit of lifting
-heavy boxes with poor posture and no back support. Not only is the
-grocer worse off than before, with a huge medical bill and a
-still-hurting back, but he’s also become addicted to the heavy-duty pain
-meds the doctor prescribed after the surgery.
+Peter Senge calls this pattern compensating feedback. An intervention
+creates short-term improvement, but the underlying system pushes back
+until the original problem returns in a new form. The organization then
+adds more effort, more urgency, or more oversight, even though effort was
+never the missing ingredient.
 
-Business is full of feedback loops that are often more obscure than
-personal loops because the change affects another department and the
-feedback comes back with no connection to the initial change.
+This is why recurring problems deserve a different kind of attention
+than isolated failures. A missed deadline may need a direct response. A
+pattern of missed deadlines needs diagnosis. A customer complaint may
+need service recovery. A pattern of complaints needs a closer look at the
+product, the promise, or the handoff between teams.
 
-For example, a product manager decides that, for the future of the
-product, a key feature needs to be deprecated. The product department
-makes the change and its productivity rises now that this difficult
-feature is gone. Meanwhile, new customers suddenly discover that an
-important feature is now missing from the product they just purchased.
-Droves of customers return the product and encourage their friends to
-find an alternative. The head of Sales discovers that this month’s
-numbers have plummeted and berates the sales team for poorly
-communicating the product’s features.
+Business leaders often miss compensating feedback because the cost of an
+intervention appears somewhere other than the place that made the
+decision. A product manager may deprecate a difficult feature and see an
+immediate improvement in engineering focus. The team has less complexity,
+fewer edge cases, and a cleaner roadmap. From inside the product
+department, the decision appears successful.
 
-The head of Sales may never discover that the decision by the product
-manager was the reason the month’s sales numbers dropped. Likewise, the
-product manager assumes their change was a good idea because he’s seeing
-momentary benefits in his own department. Later, when he can’t replace
-new engineers because the company has had low profits for the last
-couple months, he’ll never suspect that the low profits were the result
-of his decision.
+The sales team may experience the same decision very differently. New
+customers discover that an important feature is missing from the product
+they just purchased. Prospects begin hesitating during demos. Account
+executives start losing deals that previously would have closed. The
+head of sales may interpret the drop as a messaging problem, a training
+problem, or a lack of hustle from the team.
 
-Compensating feedback would likely explain 80% of the long-standing
-problems I’ve faced. Like Senge’s example taken from *Animal Farm*, I
-address symptoms in my life with greater effort and diligence rather
-than asking what the root problem is. What may be obvious from an
-outside perspective, to someone who can see the whole system and not
-only the immediate problem, is a mystery to myself
-(([Senge](#citation))).
+Both departments can be acting rationally from their own vantage point
+and still misread the system. Product sees reduced complexity. Sales
+sees reduced conversion. Unless someone connects the two, the company may
+respond by pressuring sales to communicate better while product keeps
+celebrating a cleaner backlog. The original intervention created a local
+gain and a system-level loss.
 
-Every one-on-one my manager would address some communication he thought
-could be improved. This happened because earlier in the year he gave me
-a low performance review and I pressed him for more feedback so I could
-improve. The more negative feedback I received, the harder I tried to
-improve my communication. Months later, I discovered that the reason I
-wasn’t able to change the feedback I was receiving was because the root
-problem isn’t communication, it’s expectations. He expected a certain
-style of communication that I wasn’t conforming to. Even though, in my
-style, my communication was clear and concise, because it didn’t match
-the style he wanted all my efforts were in vain. Once the style was
-addressed, the feedback on my communication stopped, even though I have
-made no changes to my communication since.
+This is the management danger of compensating feedback: it rewards narrow
+measurement. A team can improve the number it owns while damaging the
+conditions another team depends on. If the organization only reviews
+departmental metrics, it may reinforce the very behavior producing the
+problem.
+
+The same pattern appears in managerial communication. A manager may keep
+giving an employee feedback about communication. The employee responds by
+working harder to communicate more often, more clearly, or with more
+detail. If the real problem is not communication quality but mismatched
+expectations about communication style, the added effort will not fix the
+loop. The feedback keeps returning because the actual disagreement was
+never named.
+
+The practical question is not, "How do we make people try harder?" It is,
+"What system keeps producing this outcome?"
+
+When a problem repeats, I would rather slow down long enough to ask:
+
+1. Where does the problem first appear?
+2. Where is the cost actually paid?
+3. Which team or habit benefits from the current intervention?
+4. What assumption would have to be wrong for our fix to keep failing?
+5. What root condition would make the symptom unnecessary?
+
+This does not mean temporary fixes are useless. Sometimes a customer
+issue, production incident, or cash flow problem has to be stabilized
+before the deeper investigation begins. The mistake is to confuse a
+stabilizing action with a structural solution. A patch buys time. It
+does not prove the root problem has been addressed.
+
+Leaders earn trust when they can tell the difference. If every recurring
+problem is met with more pressure, the organization becomes tired without
+becoming wiser. But when leaders trace the loop, name the root condition,
+and redesign the system around it, the same effort that once produced
+exhaustion can begin producing change.
 
 ## References
 

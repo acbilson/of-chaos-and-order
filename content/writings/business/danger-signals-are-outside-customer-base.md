@@ -8,31 +8,80 @@ subjects = ['Business']
 tags = ['entrepreneurship', 'risk']
 aliases = ['/plants/business/danger-signals-are-outside-customer-base/']
 +++
-When a corporation starts, its members rush to find customers, to meet
-their needs, to iterate, to create, to re-invent. As the business grows,
-they search for more customers with the problem their product/service
-solves. As their customer base expands, they tailor their solution to
-their customers needs. If their customers' needs change, they modify
-their product to match. One might think this cycle would continue
-forever. The slow, business-killing changes happen, not among one’s own
-customer base, but with those who are not even customers - the
-‘noncustomer’ (Drucker, referenced by Krames, pg. 95).
+**The earliest warning signs of market change often come from people who
+are not buying from you.**
 
-Drucker puts it, “The first signs of fundamental change rarely appear
-within one’s own organization or among one’s own customers.” An
-established business may become so focused on serving its customers that
-it becomes oblivious to new opportunities or threats in the marketplace.
-Like the many companies whom new technology sunk (Kodak, Nokia,
-Blackberry), there is a danger for a company to grow insular to the
-wider marketplace. It can forget that noncustomers' decisions does
-affect their business, even if it’s not listed on in their bottom line.
+Customers teach a business how to improve what it already does.
+Noncustomers reveal where the market may be moving next. A healthy
+company needs both signals, but established businesses tend to overweight
+the people already paying them. That is understandable. Those
+customers produce revenue, submit support requests, fill out surveys, and
+appear in dashboards. Noncustomers are harder to see because their
+decision happens outside the system the company already measures.
 
-When a new way of doing things arises, it’s not one’s loyal customers
-who are likely to make a change. People in general don’t like to change,
-and if you only measure your business' success by the dedication of your
-customers, without taking into account whether new or different
-customers are using your product/service, you may find that you’ve been
-passed by the next entrepreneur.
+Drucker puts the danger plainly: "The first signs of fundamental change
+rarely appear within one’s own organization or among one’s own
+customers." A company can keep its existing customers satisfied while the
+market around those customers is changing. In fact, satisfaction can
+become part of the trap. Loyal customers often ask for a better version
+of the familiar offering, not a replacement for the category itself.
+
+This is why customer focus, taken alone, can become strategically
+dangerous. It improves the current model while blinding the organization
+to people who are solving the same problem in a different way, delaying
+the problem, lowering their expectations, or refusing to buy because the
+category no longer fits their lives. The noncustomer is not merely a
+missed sale. The noncustomer may be evidence that the business has
+defined its market too narrowly.
+
+Kodak, Nokia, and BlackBerry are familiar examples because they were not
+destroyed by a single bad quarter. They were weakened by a shift in what
+noncustomers and future customers considered normal. The danger was not
+that existing customers suddenly stopped valuing photographs, phones, or
+mobile communication. The danger was that the basis of value moved. When
+that happens, the company still listening only to its best customers can
+keep improving the wrong thing.
+
+For a business leader, the practical question is not only, "What do our
+customers want?" It is also, "Who is not choosing us, and what are they
+choosing instead?"
+
+That question changes the investigation. Instead of treating
+noncustomers as an absence in the funnel, leaders can treat them as a
+source of strategic information. Some noncustomers cannot afford the
+current solution. Some find the product too complicated. Some have built
+a workaround. Some use a competitor. Some have stopped believing the
+problem is worth solving in the way the industry assumes.
+
+Each group tells a different story. A price-sensitive noncustomer may
+point toward a lower-cost model. A confused noncustomer may expose a
+positioning problem. A workaround may reveal an underserved workflow. A
+competitor’s customer may show that the market is rewarding a different
+tradeoff than the company expected. A disengaged noncustomer may suggest
+that the category itself is losing relevance.
+
+I would rather have a leadership team ask these questions before the
+numbers force the issue:
+
+1. Which people should benefit from our offer but do not buy?
+2. What substitute, workaround, or delay do they choose instead?
+3. Which assumptions about value do our loyal customers reinforce?
+4. Which assumptions do noncustomers challenge?
+5. What would we build, simplify, or stop doing if we took that signal
+   seriously?
+
+This does not mean existing customers should be ignored. They remain the
+clearest evidence that the business is creating value today. The mistake
+is to assume they are equally clear evidence of where value will move
+tomorrow. Current customers help refine the business. Noncustomers often
+reveal whether the business model still belongs to the future.
+
+Leaders who pay attention only to customer satisfaction may not notice
+strategic risk until it arrives as declining revenue. Leaders who study
+noncustomers gain an earlier view. They can see which parts of the
+market are drifting, which customer assumptions are aging, and which new
+models deserve disciplined experimentation before the old model starts to
+fail.
 
 ## References
 
