@@ -8,56 +8,99 @@ subjects = ['Christian Mission']
 tags = ['apostolic', 'entrepreneurship']
 aliases = ['/plants/faith/apostles-and-entrepreneurs-share-characteristics/']
 +++
-**The description of an entrepreneur shares many of the characteristics
-of the apostolic gift (Eph 4:11).**
+**The apostolic gift and the entrepreneurial temperament are not the
+same thing, but they often share a capacity for frontier work. Churches
+need to learn how to recognize and steward that capacity.**
 
-Blank describes entrepreneurs as “comfortable with change, chaos, and
-learning from failure and are at ease working in risky, unstable
-situations without a roadmap” (Blank, pg. 13).
+Steve Blank describes entrepreneurs as people who are "comfortable with
+change, chaos, and learning from failure" and able to work "in risky,
+unstable situations without a roadmap" (Blank, pg. 13). Daniel Sinclair
+describes apostles as those who tend to make things happen, start new
+works from scratch, and thrive in challenging and risky ministry
+environments (Sinclair, pg. 6-7).
 
-Sinclair describes apostles as “\[used\] in a variety of ministries… the
-kind who tend to make things happen. Oftentimes they are good at making
-something out of nothing, ministry-wise, successfully starting new works
-from scratch…they thrive on doing things that are challenging and risky”
-(Sinclair, pg. 6-7).
+The overlap is significant. Both the entrepreneur and the apostolic
+worker move toward uncertainty rather than away from it. Both can see
+possibility before there is structure. Both are willing to test, fail,
+adapt, and try again. Both are often restless inside established systems
+that are optimized for maintenance rather than expansion.
 
-There is a strong correlation between the characteristics of apostles in
-the New Testament and the entrepreneurs of today. Both operate in
-uncertain environments, have vision beyond the status quo, and face
-regular failure in their pursuit of the right model. Either one leaves
-the relative comfort of their respective community to launch a risky new
-venture.
+That comparison needs care. Apostleship is not entrepreneurship with
+religious language attached. In Ephesians 4, apostolic ministry is a gift
+given by Christ for the building up of his body. It is accountable to the
+gospel, the church, and the mission of God. Entrepreneurship, by itself,
+may be ordered toward profit, autonomy, achievement, or social good. The
+two can resemble one another in posture without sharing the same telos.
 
-Let us assume for a moment that God gives a calling and gift-set to
-every person alive. Exercising the gifts and pursuing the calling in
-obedience to God is what Christians mean when we speak about being
-faithful to what God’s given us.
+Still, the resemblance matters because churches often struggle to
+interpret people with apostolic gifting. A person who keeps asking what
+is next, who sees gaps beyond the current congregation, who wants to
+experiment before the plan is fully proven, and who grows frustrated with
+institutional inertia may be treated as immature, disloyal, or merely disruptive.
+Sometimes that diagnosis is correct. Restlessness can be pride. Vision
+can become avoidance. Initiative can become independence from the body.
 
-- David was faithful as a warrior and later king to defend the people of
-  Israel at God’s direction.
-- Saul was unfaithful as a king who used his gifts for personal ends and
-  did not listen to God’s direction.
+But sometimes the church is misreading a gift because it does not fit
+the roles the church knows how to manage. Pastoral gifts tend to preserve
+and shepherd the gathered community. Administrative gifts create order
+and repeatable structure. Prophetic gifts confront unfaithfulness and
+call the people back to God. Apostolic gifts press toward new ground,
+new peoples, new works, and new forms of faithful presence.
 
-Whether an individual is submitted to God or not, they are equipped with
-gifts and a calling. The entrepreneur who succeeds in launching startups
-may be the same who, were they submitted to God, the Church would
-consider apostolic. This doesn’t mean to obey God they ought to have
-abandoned business and planted churches, but it does mean their work had
-the potential to expand the frontier of God’s kingdom and bring Him
-glory.
+Churches need all of these gifts. The apostolic without pastoral care can
+use people as fuel for a vision. The apostolic without administration
+can start what cannot be sustained. The apostolic without prophetic
+submission can confuse ambition with mission. But a church without
+apostolic energy can become faithful only to what already exists.
 
-Over many years I’ve struggled to identify with any of the gifts
-commonly exercised in church communities. While I care deeply for people
-I am constantly looking beyond the community to a larger vision - too
-much for pastoral ministry. Though I appreciate the order an
-administrator can create, I’m too willing to disrupt to have an
-administrative gift. I possess some measure of prophetic gifting, but
-it’s not prominent. I’ve found that my gifts are most effective outside
-the established church, but I’m not a successful evangelist. What am I?
-The closer answer to date is that I have some measure of apostolic
-gifting. It is therefore highly interesting that the descriptions of
-entrepreneur and apostle converge to a description not far from my
-personal interests and passion.
+This is where entrepreneurial language can help church leaders without
+governing the theology. Entrepreneurs are trained to notice assumptions,
+test models, listen to the field, and adapt quickly when reality refuses
+the original plan. Those instincts can serve mission when they are
+submitted to Christ and disciplined by the church. Church planting,
+neighborhood mission, new forms of discipleship, and cross-cultural work
+all require people who can act before every variable is known.
+
+The question is not whether every entrepreneur is secretly an apostle, or
+whether every apostle should launch an organization. The better question
+is how churches can discern frontier capacity and direct it toward the
+Kingdom of God.
+
+I would ask church leaders to consider:
+
+1. Who in our community sees neglected peoples, places, or possibilities
+   before others notice them?
+2. Who is able to begin faithful work without requiring a finished
+   institutional pathway?
+3. Who learns from failure without becoming cynical or reckless?
+4. Who needs pastoral, administrative, or prophetic partnership so their
+   initiative becomes fruitful rather than merely disruptive?
+5. What current structures are unintentionally suppressing apostolic
+   energy because it does not look like our existing ministry categories?
+
+These questions also matter for personal discernment. Many people who
+carry apostolic energy do not feel at home in the standard menu of church
+roles. They care about people, but they are not primarily shepherds. They
+value order, but they are willing to disrupt it for the sake of mission.
+They may speak prophetically, but their central impulse is not only to
+name what is wrong. They are drawn toward beginning, extending,
+connecting, and pioneering.
+
+That kind of person does not need permission to become self-important.
+They need formation, accountability, and a community that can help them
+distinguish calling from impulse. They also need a church with enough
+missional imagination to see that not every faithful gift is designed to
+maintain the center. Some gifts are given to extend the edge.
+
+If the church can recognize this, it will be less likely to waste people
+with apostolic gifting by forcing them into roles that blunt their
+contribution or by leaving them alone until their vision detaches from
+the body.
+Entrepreneurial comparison is useful here because it gives leaders
+language for a kind of giftedness that thrives in uncertainty. But the
+final measure is not risk tolerance, creativity, or successful launches.
+The final measure is whether the gift helps the church participate more
+faithfully in the mission of Christ.
 
 ### References
 
