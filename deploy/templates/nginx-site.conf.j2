@@ -1,7 +1,15 @@
 server {
     listen 80;
     listen [::]:80;
-    server_name {{ app_server_name }};
+    server_name www.{{ app_domain }};
+
+    return 301 http://{{ app_domain }}$request_uri;
+}
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name {{ app_domain }};
 
     root {{ app_site_root }};
     index {{ app_index_file }};
