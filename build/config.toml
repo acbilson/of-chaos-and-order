@@ -11,7 +11,7 @@ defaultColorMode = "light"
 	description = "Alex Bilson helps organizations focus ideas, ignite action, and refine what matters across business, software development, and Christian mission."
 	tagline = "I help organizations focus ideas, ignite action, and refine what matters."
 	catchphrase = "Clarity. Ignition. Refinement."
-	contactEmail = "alex@alexbilson.dev"
+	contactEmail = "acbilson@ofchaosandorder.com"
 	resumeSummary = "Business/technology consultant and senior software engineer advising at the intersection of LLM coding, entrepreneurship, and Christian mission."
 [markup]
   [markup.highlight]
