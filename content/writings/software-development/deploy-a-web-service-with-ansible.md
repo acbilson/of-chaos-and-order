@@ -1,5 +1,5 @@
 +++
-title = 'Deploy a web service with ansible'
+title = 'Deploy a web service with Ansible'
 date = 2020-07-29
 draft = false
 lastmod = 2022-05-12
@@ -8,227 +8,290 @@ subjects = ['Software Development']
 tags = ['ansible', 'systemd']
 aliases = ['/plants/technology/deploy-a-web-service-with-ansible/']
 +++
-I’ve been self-hosting my blog for nearly six months, and it’s become
-such a fun outlet that I want to be sure I could replicate it were
-something to happen. The source code is easy to store with tools like
-git, but I’ve felt increasingly uncertain that I’ll remember all my
-server configurations if I needed to deploy my site to a fresh box. At
-last, a real-world reason to learn an infrastructure-as-code tool!
+**Ansible is most useful when it turns a server from a memory test into a
+repeatable system. A good deployment role should document the service,
+apply the configuration idempotently, and leave clear operational
+boundaries behind.**
 
-There are numerous options - Puppet, Chef, Terraform, Ansible - and not
-all of them fit my use-case, but in the end, I chose Ansible because it
-was a Python executable which meant I could use one of my favorite dev
-tools, virtualenv, to ensure a siloed, reproducible Ansible deployment
-setup. I love sandbox tools like docker and virtualenv because I never
-know what OS I’ll be running next. Also, I didn’t want to shift the
-config complexity from my webserver to my deployment infrastructure.
+After self-hosting my blog for several months, I became less worried
+about the source code and more worried about the server. Git already gave
+me a durable copy of the site content. What I did not have was a durable
+description of the machine: packages, users, permissions, Nginx
+configuration, systemd services, firewall rules, and deployment scripts.
 
-From my first successful deployment, I’ve been extremely satisfied with
-Ansible. The module documentation is clear, the roles run fast enough,
-and it’s [idempotent](https://www.wordnik.com/words/idempotent). But
-most importantly, it meets my need to have complete documentation for
-every configuration on my webserver. But let me stop gushing about it
-and show you some examples!
+That is the problem that made Ansible useful. I did not want to move
+configuration complexity from the server into an equally opaque
+deployment system. I wanted the server configuration to become explicit,
+reviewable, and reproducible.
 
-My first foray into the Ansible documentation led me to think that
-learning adhoc commands would be a good start, then playbooks, and
-finally roles. After a bit of tinkering; however, I realized that roles
-were conceptually simpler and fit the mental model I wanted - a
-description of various responsibilities a server might provide. For
-example, a server might offer web services, and an Ansible role should
-describe all the steps to convert any server into a webserver. An
-unexpected side effect of this mental model is that it’s led me to
-maintain functional distinctions that could be deployed to separate
-machines, even though at the moment it all resides on a single machine.
+There are many tools in this space, including Puppet, Chef, Terraform,
+and Ansible. I chose Ansible because it fit the scale of the problem. It
+could run from a Python environment, did not require a resident agent on
+the server, and let me describe configuration in roles that matched how I
+thought about server responsibilities.
 
-{{< aside >}}
-Caveat: I'm going to choose a role I developed a few steps after the
-first. It's easier to describe and thus a better candidate for an
-example.
-{{< /aside >}}
+The role model became the important abstraction. Instead of thinking in
+terms of one long setup script, I could describe capabilities: a
+webserver role, a webhook role, a service role, a firewall role. Even
+when everything lived on one machine, those boundaries made the system
+easier to understand and left open the possibility of moving
+responsibilities later.
 
-After I’d established the bedrock roles I wanted for the webserver
-that’s hosting this site, I began to ponder what it’d take to automate
-the static site deployment. I’d read that others used Netlify tools to
-automate their site deployment so that they could add content without
-manually executing the commit-build-deploy steps. I didn’t want to move
-to Netlify today, so I needed a way to achieve what Netlify does on my
-own.
+## The Deployment Problem
 
-The crux of the automation lies in responding to Github webhooks. If I
-automate the creation of new content to my Github repository, I need to
-receive a notification that the git push has occurred so that I can pull
-down the latest code, build, and deploy. I played with writing my server
-to accomplish this, but in the process, I discovered a handy package
-from `adnahn` called [webhook](https://github.com/adnanh/webhook). Now I
-have a process, the commit-build-deploy steps, and a role, the webhook
-server. Let’s take a look at the Ansible tasks!
+Once the baseline webserver roles were in place, I wanted to automate the
+static-site deployment path. The workflow was straightforward:
 
-The first step was simple; the webhook package should be installed on
-the machine.
+1. GitHub receives a content or code update.
+2. A webhook notifies my server.
+3. The server pulls the latest source.
+4. The site is rebuilt and deployed.
 
-```
-- name: installs webhook server
-  apt:
+I considered writing the webhook server myself, but the
+[webhook](https://github.com/adnanh/webhook) package already did the
+small piece I needed: receive a webhook and run a configured script. That
+gave me a useful role boundary. Ansible would install and configure the
+webhook service. Shell scripts would own the commit-build-deploy steps.
+
+The rest of this article walks through the Ansible tasks for that role.
+
+## Install The Package
+
+The first task installs the webhook package:
+
+```yaml
+- name: Install webhook server
+  ansible.builtin.apt:
     name: webhook
-    state: latest
-  become: yes
+    state: present
+    update_cache: true
+  become: true
 ```
 
-{{< aside >}}
-You'll notice many tasks end with \`become: yes\`. This line indicates
-that the command requires heightened privileges to run.
-{{< /aside >}}
+I prefer `state: present` for this kind of role unless I intentionally
+want every run to upgrade the package. Reproducibility is easier when
+routine configuration runs do not also perform surprise version changes.
 
-Somehow, the package doesn’t create it’s own /etc folder, so I take that
-step myself.
+The `become: true` line marks tasks that require elevated privileges.
+That should stay visible. Privilege is part of the operational design,
+not just an implementation detail.
 
-```
-- name: creates and sets hooks directory permissions
-  file:
+## Create Configuration Directories
+
+The package did not create the configuration directory I wanted, so the
+role creates it explicitly:
+
+```yaml
+- name: Create webhook configuration directory
+  ansible.builtin.file:
     path: /etc/webhook
     state: directory
     owner: root
-  become: yes
+    group: root
+    mode: "0755"
+  become: true
 ```
 
-Why did I need an /etc folder? To put my hook configuration in, of
-course! This copies the file from my machine to my target.
+This is one of the places where Ansible reads well: the task is both the
+action and the documentation. The directory should exist, should be owned
+by root, and should have predictable permissions.
 
-```
-- name: adds hooks.json
-  template:
+## Template The Hook Configuration
+
+The hook definition belongs in `/etc/webhook`:
+
+```yaml
+- name: Add hooks configuration
+  ansible.builtin.template:
     src: hooks.json
     dest: /etc/webhook/hooks.json
     owner: root
-  become: yes
+    group: root
+    mode: "0644"
+  become: true
+  notify: Restart webhook
 ```
 
-The webhook project responds to incoming webhooks by running shell
-scripts. I need somewhere to store them, so I create a folder in
-/usr/lib.
+Using `template` instead of `copy` leaves room for environment-specific
+values later. The `notify` line is also important. If the hook
+configuration changes, the service should restart. If it does not change,
+Ansible should leave the service alone.
 
-```
-- name: creates and sets scripts directory permissions
-  file:
+That is the practical value of idempotence. A deployment role should be
+safe to run repeatedly.
+
+## Install Deployment Scripts
+
+The webhook package responds to requests by running shell scripts. I keep
+those scripts in a dedicated directory:
+
+```yaml
+- name: Create webhook script directory
+  ansible.builtin.file:
     path: /usr/lib/webhook/scripts
     state: directory
     owner: root
-  become: yes
+    group: root
+    mode: "0755"
+  become: true
 ```
 
-With my folder created, it’s time to copy the three scripts I need for
-the commit-build-deploy process. This might have been wrapped into one
-iterative task (or compiled into a single script), but I wasn’t sure at
-the time whether I’d want a different configuration for any of the
-files. In my experience, it’s better to have some duplication where I’m
-uncertain of change than to prematurely optimize and split later.
+Then the role installs the scripts:
 
-```
-- name: adds script to create a new note
-  template:
-    src: new-note.sh
-    dest: /usr/lib/webhook/scripts/new-note.sh
+```yaml
+- name: Install webhook scripts
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "/usr/lib/webhook/scripts/{{ item }}"
     owner: root
-    mode: '0744'
-  become: yes
-
-- name: adds script to pull from github
-  template:
-    src: git-pull.sh
-    dest: /usr/lib/webhook/scripts/git-pull.sh
-    owner: root
-    mode: '0744'
-  become: yes
-
-- name: adds script to deploy an update
-  template:
-    src: git-deploy.sh
-    dest: /usr/lib/webhook/scripts/git-deploy.sh
-    owner: root
-    mode: '0744'
-  become: yes
+    group: root
+    mode: "0744"
+  loop:
+    - new-note.sh
+    - git-pull.sh
+    - git-deploy.sh
+  become: true
+  notify: Restart webhook
 ```
 
-With all the webhook installation complete, it’s time to proxy the
-server with Nginx.
+I originally wrote these as three separate tasks. That was acceptable
+while I was still learning which files might diverge. Once the shape was
+clear, the loop made the role easier to read without hiding meaningful
+differences. Duplication is not always wrong, but it should have a
+reason.
 
-```
-- name: adds nginx proxy config
-  template:
+## Proxy With Nginx
+
+The webhook service should not be exposed casually. In this setup, Nginx
+owns public ingress and proxies only the route I intend to expose.
+
+```yaml
+- name: Add nginx proxy configuration
+  ansible.builtin.template:
     src: webhook_proxy
     dest: /etc/nginx/sites-available/webhook_proxy
-  become: yes
-  notify: restart nginx
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  notify: Restart nginx
 
-  - name: enables nginx proxy config
-  file:
+- name: Enable nginx proxy configuration
+  ansible.builtin.file:
     src: /etc/nginx/sites-available/webhook_proxy
     dest: /etc/nginx/sites-enabled/webhook_proxy
     state: link
+  become: true
+  notify: Restart nginx
 ```
 
-Did you catch the `notify: restart nginx` line? This refers to another
-task which should be executed after this completes, but only when
-there’s been a change. It’s nothing fancy.
+The handler keeps the restart behavior explicit:
 
-```
-- name: restart nginx
-  service:
+```yaml
+- name: Restart nginx
+  ansible.builtin.service:
     name: nginx
     state: restarted
-  become: yes
+  become: true
 ```
 
-One last step to finish the proxy. I need to allow the webhook port
-through my firewall.
+In a more mature role, I would also validate the Nginx configuration
+before restarting. Restarting a reverse proxy with a bad config is a
+preventable outage.
 
-```
-- name: allows webhook port access
-  ufw:
+## Open The Firewall
+
+The firewall rule should be as narrow as the service allows:
+
+```yaml
+- name: Allow webhook port access
+  community.general.ufw:
     rule: allow
-    port: '6237'
+    port: "6237"
     proto: tcp
-  become: yes
+  become: true
 ```
 
-There seem to be as many instructions for running a Linux service as
-there are Linux distros. I chose to create a systemd service to manage
-my webhook executable, but if you have a better idea, I’d love to hear
-it. I particularly want something efficient, fault-tolerant, and works
-on Debian.
+Opening a port is not just a connectivity step. It is part of the threat
+model. If the webhook endpoint triggers deployment scripts, it needs
+authentication, signature verification, careful script permissions, and
+the smallest useful exposure.
 
-```
-- name: adds systemd script to run webhooks
-  template:
+## Run The Service With systemd
+
+For Debian, systemd is the right default process manager. It starts the
+service at boot, restarts it when configured to do so, and centralizes
+logs in the journal.
+
+```yaml
+- name: Add systemd unit for webhook
+  ansible.builtin.template:
     src: webhook.service
-    dest: /lib/systemd/system/webhook.service
+    dest: /etc/systemd/system/webhook.service
     owner: root
-    mode: '0644'
-  become: yes
+    group: root
+    mode: "0644"
+  become: true
   notify:
-    - reload daemon
-    - start webhook service
+    - Reload systemd
+    - Restart webhook
 
-- name: reload daemon
-  shell:
-    cmd: systemctl daemon-reload
-  become: yes
-
-- name: start webhook service
-  shell:
-    cmd: systemctl enable --now webhook.service
-  become: yes
+- name: Enable webhook service
+  ansible.builtin.systemd:
+    name: webhook.service
+    enabled: true
+    state: started
+  become: true
 ```
 
-One of my next steps is to begin these tasks with better security
-configurations. The webhook server should run as a non-privileged user
-with permission only to what it requires. A couple of tasks to create a
-user and group, then ownership changes where I add new files and
-modifications to existing directories ought to do it.
+The handlers should use Ansible modules rather than shell commands:
 
-Once I feel more comfortable with the security posture, I’d like to
-extrapolate more of the configuration to a separate file that I can
-configure per execution. Wouldn’t it be sweet if I could point this
-script at a local test Docker image? Then I could be certain that both
-my testing and production configuration were identical.
+```yaml
+- name: Reload systemd
+  ansible.builtin.systemd:
+    daemon_reload: true
+  become: true
+
+- name: Restart webhook
+  ansible.builtin.systemd:
+    name: webhook.service
+    state: restarted
+  become: true
+```
+
+Using `ansible.builtin.systemd` communicates the intent more clearly than
+shelling out to `systemctl`, and it gives Ansible a better chance to
+model the task correctly.
+
+## Security And Testability
+
+The next version of this role should run the webhook service as a
+non-privileged user with access only to the files and commands it needs.
+That means creating a dedicated user and group, assigning ownership
+carefully, limiting script permissions, and making sure the webhook
+cannot become a general-purpose command execution endpoint.
+
+I would also move more configuration into variables: port, domain, script
+paths, repository paths, and service user. Good variables make the role
+portable. Too many variables make the role abstract and hard to reason
+about. The line is whether the value represents a real deployment
+difference.
+
+For testability, the ideal shape is a role that can target a disposable
+local environment before production. Even a lightweight container or VM
+test gives confidence that templates render, packages install, handlers
+fire, and services start. The point is not to make a personal deployment
+feel enterprise-sized. The point is to catch preventable mistakes before
+they become production debugging.
+
+## Conclusion
+
+Ansible was useful here because it converted a working server into a
+repeatable system. The role installs the package, writes configuration,
+places scripts, proxies traffic, opens the firewall, and manages the
+process with systemd. More importantly, it records the operational
+decisions behind the service.
+
+That is the standard I want from infrastructure as code. It should not
+only make setup faster. It should make the system easier to inspect,
+safer to rebuild, and clearer to operate when something breaks.

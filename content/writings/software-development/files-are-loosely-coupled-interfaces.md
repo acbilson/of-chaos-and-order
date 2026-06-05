@@ -8,14 +8,19 @@ subjects = ['Software Development']
 tags = ['interoperability', 'file', 'interface', 'markdown', 'api']
 aliases = ['/plants/technology/files-are-loosely-coupled-interfaces/']
 +++
-How does one build an interoperable ecosystem of personal (or communal)
-applications? Impressed by Linus Lee’s [enormous
-ecosystem](https://github.com/thesephist), I emailed him with my own
-questions about underlying data structures. He pointed me to an
-invaluable article by Gordon Brander, [if headers did not exist, it
-would be necessary to invent
+**A file can be more than storage. With a stable format, clear metadata,
+and readable content, a file becomes a loosely coupled interface between
+tools.**
+
+The question that led me here was practical: how does one build an
+interoperable ecosystem of personal or communal applications? I was
+impressed by Linus Lee's [software
+ecosystem](https://github.com/thesephist), so I asked him about the data
+structures underneath it. He pointed me to Gordon Brander's article, [If
+headers did not exist, it would be necessary to invent
 them](https://subconscious.substack.com/p/if-headers-did-not-exist-it-would?s=r).
-Linus summarizes:
+
+Linus summarized the idea this way:
 
 {{< quote source="Linus Lee" >}}
 The basic idea is that documents and entities are key-value pairs, with
@@ -25,11 +30,25 @@ reduce coupling between apps and data sources while letting systems
 interact.
 {{< /quote >}}
 
-The file format Gordon recommends is quite similar to Hugo’s Markdown
-with header metadata. So similar, in fact, that there’s little reason
-not to use the same format. While I could opt for only a TOML/YAML file,
-the body text grants powerful variability. Later in Linus' email he
-writes:
+That sentence describes a useful architecture pattern. Instead of forcing
+every tool to speak to every other tool through bespoke APIs, tools can
+coordinate around a shared artifact. The file becomes the interface.
+Each application can read the parts it understands and ignore the parts
+it does not.
+
+## Metadata Plus Body
+
+The format Gordon recommends is close to the Markdown-plus-front-matter
+model used by Hugo: structured metadata at the top, flexible body content
+below. That combination is more powerful than either piece alone.
+
+A pure TOML, YAML, or JSON file is easy for software to parse, but it can
+become awkward for human expression. A pure Markdown document is easy for
+people to write, but it may not provide enough stable structure for
+software to coordinate around. Front matter plus body text gives both:
+machine-readable fields and human-readable context.
+
+Linus offered a contact-card example:
 
 {{< quote source="Linus Lee" >}}
 For example, contact cards may have specific fields for name, phone
@@ -40,12 +59,22 @@ make some sense of the entity without having to know about every entity
 type in the system.
 {{< /quote >}}
 
-I do appreciate the structure of a backend SQLite table, and a
-JSON-formatted column can accomplish nearly the same result as a header,
-but nothing beats the convenience of opening a plain-text file and
-making edits in Vim. As Gordon notes, the structure of a database
-naturally results in a plethora of bespoke APIs that get increasingly
-difficult to manage.
+That is the important design move. Specialized tools can rely on
+specialized fields. General tools can still use the body. The format
+does not require every participant to understand the whole schema before
+it can provide value.
+
+## Coupling And Ownership
+
+Databases are often the right choice for transactional systems,
+concurrent writes, relational queries, access control, and high-volume
+operations. I would not replace a billing system or collaborative editor
+with a directory of Markdown files. But databases also tend to hide data
+behind application-specific interfaces. Once that happens,
+interoperability becomes something each application has to explicitly
+provide.
+
+Gordon Brander names the integration cost:
 
 {{< quote source="[Gordon Brander](https://subconscious.substack.com/p/composability-with-other-tools?s=r)" >}}
 On the web, the most common way to save data is in a database hidden
@@ -56,17 +85,100 @@ can collaborate over a shared file type, cutting down the necessary
 integrations from n \* (n-1), to just n.
 {{< /quote >}}
 
-There is one piece that the IndieWeb movement adds to this concept that
-I think is worth further exploration. While everything Gordon says about
-file format interoperability is true, and a database with an API layer
-does not enable the same degree of interoperability, the web itself is
-in a structured file format: HTML. With a bit of attention to shared
-conventions, a web page itself can supply a flexible interface with
-equal interoperability to a file format. If a tool renders HTML instead
-of a JSON API, many tools can read and understand the files returned
-from the web server. However, since one of my values is the ability to
-edit my data in a text editor, a regular file format still wins out over
-a database.
+That is the architectural advantage of files. A file system creates a
+simple ownership model. A user can inspect the data, edit it with a text
+editor, version it with Git, sync it with common tools, index it with a
+search engine, and transform it with scripts. None of those tools need
+permission from the original application.
 
-Thanks so much to Linus for the link to Gordon’s article and the insight
-about loosely-coupled data sources!
+This is loose coupling in a very concrete form. The producer and consumer
+do not need to share a runtime, deployment cadence, language, database,
+or API client. They only need enough agreement about the artifact.
+
+## The Schema Still Matters
+
+Files do not remove the need for design. They move the design pressure
+into the file format.
+
+If every application invents its own front matter keys, the ecosystem
+will drift into a different kind of incompatibility. If the body content
+is unstructured but tools depend on fragile text conventions, the format
+will become difficult to evolve. If multiple tools write to the same file
+without coordination, conflicts and data loss become real risks.
+
+The healthier pattern is to keep a small number of blessed keys stable
+and let specialized tools add their own fields without requiring
+universal adoption. For example:
+
+```markdown
++++
+title = "Jane Doe"
+type = "contact"
+email = "jane@example.com"
+phone = "+1-555-0100"
+tags = ["friend", "design"]
++++
+
+Jane is a product designer I met at a local meetup. She is interested in
+tools for personal knowledge management and community publishing.
+```
+
+A contact manager can read `email` and `phone`. A search tool can index
+the body. A static site generator can render the page. A backup tool can
+copy the file without knowing anything about contacts. A future tool can
+add fields without invalidating the basic document.
+
+## Files And The Web
+
+The IndieWeb adds another useful angle: the web itself is built around
+structured documents. HTML is a file format with conventions, links,
+metadata, and increasingly rich machine-readable annotations. With
+microformats, semantic HTML, feeds, and stable URLs, a rendered web page
+can also become an interface.
+
+That matters because the choice is not only "database plus API" or
+"local file." A system can expose documents over HTTP in a way that lets
+general-purpose tools understand them. In some cases, publishing HTML or
+feeds is a better interoperability layer than inventing a JSON API too
+early.
+
+Still, for personal tooling, plain files retain an advantage that is hard
+to beat: direct ownership. I can open the data in Vim, make a change,
+commit it, grep it, sync it, or recover it without waiting for the
+application that originally created it.
+
+## When This Pattern Fits
+
+Files-as-interfaces work best when:
+
+1. Human editability matters.
+2. The data model is document-shaped.
+3. Writes can be serialized or conflict-managed.
+4. Tools need to interoperate without sharing a backend.
+5. Long-term ownership matters more than centralized control.
+
+They fit poorly when:
+
+1. Many users need concurrent writes.
+2. Complex relational queries are central.
+3. Strict authorization is required at field or row level.
+4. Data volume exceeds what file-oriented tooling can handle cleanly.
+5. The system needs transactional guarantees.
+
+That tradeoff is the point. Files are not a universal replacement for
+databases or APIs. They are a strong default when the desired property is
+composability across small tools and long-lived personal data.
+
+## Conclusion
+
+The appeal of file-based interfaces is not nostalgia for plain text. It
+is architectural leverage. A well-designed file format can let many tools
+cooperate without turning every integration into a custom API project.
+
+For personal and communal software, that matters. Data should not become
+trapped inside each application that touches it. When the artifact is
+readable, portable, and stable, the user owns more of the system, and the
+software around it can evolve with less coordination cost.
+
+Thanks to Linus Lee for pointing me toward Gordon Brander's article and
+for clarifying the value of loosely coupled data sources.

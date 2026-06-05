@@ -1,38 +1,147 @@
 +++
-author = "Alex Bilson"
-date = "2021-03-10"
-lastmod = "2022-12-16 13:21:05"
-toc = true
-epistemic = "evergreen"
-tags = ["podman","kubernetes","k3s"]
+title = 'Host your services with Podman'
+date = 2021-03-10
+draft = false
+lastmod = 2022-12-16
+eyebrow = 'Essay'
+subjects = ['Software Development']
+tags = ['podman', 'kubernetes', 'k3s', 'systemd', 'containers']
+aliases = ['/plants/technology/host-your-services-with-podman/']
 +++
-## Recollecting the Journey
+**Podman is a useful middle ground between hand-managed Linux services
+and a full Kubernetes cluster. It gives small systems container
+boundaries without forcing them to adopt more orchestration than they
+need.**
 
-My [earlier foray](/writings/software-development/architect-a-personal-devops-pipeline/) into self-hosting a devops pipeline was little more than an Nginx proxy serving up Hugo-generated HTML files. As needs arose I began to add web services. Automated deployments with a webhook server and mobile publishing with a custom publishing service were two of the first. At the time I wrote this post, I was also running a data-publishing service called [datasette](https://github.com/simonw/datasette), deploying server updates with Ansible, and managing all processes with supervisord.
+My [earlier foray](/writings/software-development/architect-a-personal-devops-pipeline/)
+into self-hosting started with Nginx serving a Hugo-generated static
+site. As the site grew, I added services around it: a webhook server for
+deployment, a publishing service for mobile writing, a
+[Datasette](https://github.com/simonw/datasette) instance for data
+publishing, Ansible for server configuration, and process management with
+supervisord.
 
-I thought the natural progression was towards Kubernetes, so I attempted to make the transition to [k3s](https://k3s.io/). When I drafted a network diagram, however, I discovered that the CI/CD process I wanted to implement to deploy my Kube nodes would require a second machine, and I didn't want to spend the money or manage the extra configuration. I had attempted an intermediary Podman installation but had run into difficulties configuring Debian Buster since it's not officially supported. But I didn't get very far until I also experienced trouble with k3s and, unwilling to let my site languish for weeks while I tried to implement a deployment process I didn't need, I abandoned the project. Fortunately, after bit of tinkering I _did_ get Podman working. And it's been a dream come true.
+That system worked, but it had a natural pressure point. Each service had
+its own runtime assumptions, dependency shape, port, user, logs, and
+restart behavior. Ansible made the machine reproducible, but I still
+wanted cleaner service boundaries. Containers were the obvious next
+step.
 
-## The Podman Era
+The tempting answer was Kubernetes, especially [k3s](https://k3s.io/).
+But once I mapped the actual system, Kubernetes looked like more platform
+than the workload required. I did not need a cluster scheduler to run a
+small number of services on one machine. I needed reproducible containers
+that still fit the operational model I already understood.
 
-One of the intermediary transitions I needed to move my services to Kubernetes was to containerize them. I had a few in Docker containers for local development, so it wouldn't take much, but running my production services as containers was a new experience. And it's been such a great experience.
+That is where Podman fit.
 
-Podman has been a pleasure to operate for three reasons.
+## Why Podman Fit
 
-- Instead of relying on a mysterious Docker daemon to operate my containers, Podman let me convert each container unit into a systemd service so I can leverage the stability and support of Debian's process management. Systemd services can be enabled to launch on startup and log output to the system journal. It just feels more, integrated.
-- Docker didn't have native pod support. I couldn't launch a web service plus database as a single unit without a bit of finagling, or by using Docker Compose. Podman has pods that work identically to pods in Kubernetes and can be operated as a unit with, you guessed it, the systemd service architecture.
+Podman gave me most of the container boundary I wanted without requiring
+a Docker daemon or a Kubernetes control plane. I could build images, run
+containers, group related containers into pods, and manage them with
+ordinary Linux tooling.
 
-## Updated Architecture
+The daemonless model mattered. With Docker, the daemon becomes another
+privileged service that owns container lifecycle. With Podman, containers
+can run as ordinary processes under the user that launched them. That
+fits a small self-hosted environment where I want fewer privileged
+components and clearer ownership.
+
+Rootless containers also matched the security direction I was already
+taking. I had been moving services into distinct nonroot users so each
+service had less access to the system. Podman made that pattern feel
+native rather than bolted on.
+
+## systemd As The Process Manager
+
+The biggest operational win was systemd integration. Podman can generate
+systemd unit files for containers and pods, which lets Debian manage
+containerized services the same way it manages other long-running
+processes.
+
+That matters because systemd already solves several problems I care
+about:
+
+1. Start services at boot.
+2. Restart services when appropriate.
+3. Capture logs in the journal.
+4. Express dependencies between services.
+5. Expose status through standard system tools.
+
+For a small deployment, that is often enough. I do not need a cluster
+scheduler if all I need is reliable process supervision on one machine.
+Podman plus systemd keeps the operating model close to Linux instead of
+moving it into a separate orchestration layer.
+
+## Pods Without A Cluster
+
+Podman also supports pods, which gave me a useful conceptual bridge
+toward Kubernetes without requiring Kubernetes itself. A web service and
+its database can be grouped as a unit. They can share a network
+namespace, be started together, and be represented as one operational
+shape.
+
+That solved a real problem. Docker can get there with Docker Compose,
+but Podman's pod model maps more directly to the Kubernetes concepts I
+wanted to learn. I could practice the mental model of grouped containers
+while still keeping the deployment small.
+
+This is a good example of choosing a tool for both current fit and
+future learning. Podman was useful immediately, and it taught concepts
+that would transfer if I later moved to Kubernetes.
+
+## Why Not Kubernetes Yet
+
+Jeff Geerling's cluster work helped clarify the threshold. For my
+purposes, Kubernetes did not become compelling until there were enough
+nodes and services for scheduling, failover, and distribution to matter.
+A single-node cluster gives practice, but it does not provide much
+operational value beyond the learning itself. Two nodes are still
+limited. Three or more nodes begin to make the orchestration model more
+credible.
+
+{{< aside >}}
+At least three nodes are necessary before Kubernetes becomes a meaningful
+operational option for this kind of self-hosted environment.
+{{< /aside >}}
+
+That does not make Kubernetes the wrong tool. It makes it the wrong next
+tool for this system. Kubernetes solves real problems, but if those
+problems are not present, it mostly adds a control plane, configuration
+surface, networking model, and failure modes I now have to operate.
+
+Podman gave me the part I actually needed: containerized services with
+clear process management.
+
+## The Tradeoff
+
+Podman is not a full platform. It does not give me automatic placement
+across nodes, declarative cluster state, service discovery across a
+fleet, or built-in deployment workflows. For a larger team or a larger
+service estate, those missing pieces matter.
+
+For my personal stack, the omissions were advantages. Fewer moving parts
+meant fewer things to learn at the moment of failure. I could inspect a
+unit file, read the journal, run `podman ps`, rebuild an image, and
+restart a service without asking a cluster why it made a scheduling
+decision.
+
+The result was not more sophisticated than Kubernetes. It was more
+appropriate.
 
 ## Conclusion
 
-Thanks to [Jeff Geerling's](https://www.jeffgeerling.com/) invaluable YouTube [Cluster Series - Part 1](https://youtu.be/kgVz4-SEhbE), it's evident that I need at least three nodes are necessary before Kubernetes is a worthwhile option. One node is dedicated to operating the cluster and offers little but resource consumption if it's the only node. Two nodes allow for only a single node for the master node to manage - again offering little and supplying no opportunity for Kubernete's container distribution logic. Two nodes for the master node to manage does give Kubernetes the chance to select the best node for a given pod, to have a backup for failed pods, and starts to become tedious to operate independently (barely).
+Podman became the right container layer for this stage of the system. It
+let me move services into containers, preserve the systemd-based
+operational model, run services under nonroot users, and learn pod-shaped
+deployment without committing to a cluster.
 
-{{< aside >}}
-...at least three nodes are necessary before Kubernetes is a worthwhile option.
-{{< /aside >}}
+The larger lesson is the same one that shaped the rest of this DevOps
+series: adopt the next tool that solves the next real problem. For this
+system, the next problem was service isolation and container packaging,
+not cluster orchestration. Podman solved that problem with fewer moving
+parts.
 
-Is it time to move to Kubernetes? There's never been a better opportunity to make the attempt but, for my purposes, Podman may be the sweet spot. There's nothing k3s offers that my little Podman cluster can't already do with fewer resources. But with Debian Bullseye moving me closer to a fully supported OS, I might have to try anyways, if only to learn.
-
-## The Final Transition?
-
-Tinkering with my personal devops pipeline has been a wonderful experience. I kinda don't want it to end. Where I'm at today; however, is such a great setup that I may not need more for a while. Decide for yourself by reading my (currently) last installment, [Build your own CI/CD pipeline](/writings/software-development/build-your-own-ci-cd-pipeline/).
+The next step was automating deployment around that smaller architecture.
+That became [Build your own CI/CD pipeline](/writings/software-development/build-your-own-ci-cd-pipeline/).
